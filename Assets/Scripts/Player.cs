@@ -16,12 +16,14 @@ public class Player : MonoBehaviour
 
     //Private Variables
     private bool _canFireLaser = true;
+    private SpawnManager _spawnManager;
     private WaitForSeconds _laserCooldownTime;
 
     void Start()
     {
         transform.position = Vector3.zero;
         _laserCooldownTime = new WaitForSeconds(_fireRate);
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
     }
 
 
@@ -68,6 +70,7 @@ public class Player : MonoBehaviour
         if(_lives < 1)
         {
             Destroy(this.gameObject);
+            _spawnManager.OnPlayerDeath();
         }
     }
 

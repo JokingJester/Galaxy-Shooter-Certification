@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
         if(transform.position.y <= -5.4f)
-            transform.position = new Vector3(Random.Range(-9, 9), 8, transform.position.z);
+            transform.position = new Vector3(Random.Range(-8, 8), 8, transform.position.z);
     }
 
     private void OnTriggerEnter(Collider other)
