@@ -8,8 +8,8 @@ public class SpawnManager : MonoBehaviour
     [Tooltip("How Fast Enemies Spawn")]
     [SerializeField] private float _spawnRate;
     [SerializeField] private GameObject _enemyPrefab;
-    [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private Transform _enemyContainer;
+    [SerializeField] private GameObject[] _powerups;
 
     private bool _stopSpawning;
     private WaitForSeconds _spawnEnemyCooldown;
@@ -37,7 +37,8 @@ public class SpawnManager : MonoBehaviour
         while(_stopSpawning == false)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8, 8), 8, 0);
-            GameObject spawnedPowerup = Instantiate(_tripleShotPrefab, posToSpawn, Quaternion.identity);
+            int randomPowerup = Random.Range(0, _powerups.Length - 1);
+            GameObject spawnedPowerup = Instantiate(_powerups[randomPowerup], posToSpawn, Quaternion.identity);
             float randomTime = Random.Range(3, 7);
             yield return new WaitForSeconds(randomTime);
         }

@@ -6,10 +6,13 @@ public class Player : MonoBehaviour
 {
     [Header("Player Settings")]
     [SerializeField] private int _lives;
-    [SerializeField] private float _speed;
+    [SerializeField] private float _regularSpeed;
+    [SerializeField] private float _speedBoostSpeed;
 
     [Tooltip("How Fast You Can Fire A Laser")]
     [SerializeField] private float _fireRate;
+
+    [Tooltip("How Fast You Can Fire A Laser With Triple Shot Powerup")]
     [SerializeField] private float _tripleShotFireRate;
 
     [Header("Prefabs")]
@@ -18,8 +21,11 @@ public class Player : MonoBehaviour
 
     //Private Variables
     private bool _canFireLaser = true;
+    private bool _enableSpeedBoost;
     private bool _tripleShotActive;
+
     private SpawnManager _spawnManager;
+
     private WaitForSeconds _laserCooldownTime;
     private WaitForSeconds _tripleShotCooldownTime;
     private WaitForSeconds _tripleShotPowerDownTime;
@@ -51,7 +57,10 @@ public class Player : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
-        transform.Translate(direction * _speed * Time.deltaTime);
+        if(_enableSpeedBoost == true)
+            transform.Translate(direction * _speedBoostSpeed * Time.deltaTime);
+        else
+            transform.Translate(direction * _regularSpeed * Time.deltaTime);
     }
 
     private void PlayerBounds()
@@ -90,6 +99,12 @@ public class Player : MonoBehaviour
         StartCoroutine(TripleShotPowerDownRoutine());
     }
 
+    public void SpeedBoostActive()
+    {
+        _enableSpeedBoost = true;
+        StartCoroutine(SpeedBoostPowerDownRoutine());
+    }
+
     private IEnumerator LaserCooldownRoutine()
     {
         _canFireLaser = false;
@@ -104,5 +119,11 @@ public class Player : MonoBehaviour
     {
         yield return _tripleShotPowerDownTime;
         _tripleShotActive = false;
+    }
+
+    private IEnumerator SpeedBoostPowerDownRoutine()
+    {
+        yield return _tripleShotPowerDownTime;
+        _enableSpeedBoost = false;
     }
 }
