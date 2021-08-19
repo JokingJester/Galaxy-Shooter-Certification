@@ -6,23 +6,30 @@ public class Player : MonoBehaviour
 {
     [Header("Player Settings")]
     [SerializeField] private int _lives;
-
     [SerializeField] private float _speed;
 
     [Tooltip("How Fast You Can Fire A Laser")]
     [SerializeField] private float _fireRate;
+    [SerializeField] private float _tripleShotFireRate;
 
+    [Header("Prefabs")]
     [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private GameObject _tripleShotPrefab;
 
     //Private Variables
     private bool _canFireLaser = true;
+    private bool _tripleShotActive;
     private SpawnManager _spawnManager;
     private WaitForSeconds _laserCooldownTime;
+    private WaitForSeconds _tripleShotCooldownTime;
+    private WaitForSeconds _tripleShotPowerDownTime;
 
     void Start()
     {
         transform.position = Vector3.zero;
         _laserCooldownTime = new WaitForSeconds(_fireRate);
+        _tripleShotCooldownTime = new WaitForSeconds(_tripleShotFireRate);
+        _tripleShotPowerDownTime = new WaitForSeconds(5);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
     }
 
@@ -60,7 +67,10 @@ public class Player : MonoBehaviour
 
     private void FireLaser()
     {
-        Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+        if(_tripleShotActive == false)
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+        else
+            Instantiate(_tripleShotPrefab, transform.position , Quaternion.identity);
         StartCoroutine(LaserCooldownRoutine());
     }
 
@@ -74,10 +84,25 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void TripleShotActive()
+    {
+        _tripleShotActive = true;
+        StartCoroutine(TripleShotPowerDownRoutine());
+    }
+
     private IEnumerator LaserCooldownRoutine()
     {
         _canFireLaser = false;
-        yield return _laserCooldownTime;
+        if(_tripleShotActive == true)
+            yield return _tripleShotCooldownTime;
+        else
+            yield return _laserCooldownTime;
         _canFireLaser = true;
+    }
+
+    private IEnumerator TripleShotPowerDownRoutine()
+    {
+        yield return _tripleShotPowerDownTime;
+        _tripleShotActive = false;
     }
 }
