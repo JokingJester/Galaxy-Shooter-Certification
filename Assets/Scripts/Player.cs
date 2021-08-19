@@ -5,6 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [Header("Player Settings")]
+    [SerializeField] private int _lives;
+
     [SerializeField] private float _speed;
 
     [Tooltip("How Fast You Can Fire A Laser")]
@@ -58,6 +60,15 @@ public class Player : MonoBehaviour
     {
         Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
         StartCoroutine(LaserCooldownRoutine());
+    }
+
+    public void Damage()
+    {
+        _lives--;
+        if(_lives < 1)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private IEnumerator LaserCooldownRoutine()
