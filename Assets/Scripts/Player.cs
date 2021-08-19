@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
 
     private void FireLaser()
     {
-        Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+        Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
         StartCoroutine(LaserCooldownRoutine());
     }
 
