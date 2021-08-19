@@ -4,18 +4,33 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed;
-    // Start is called before the first frame update
+    [Header("Player Settings")]
+    [SerializeField] private float _speed;
+
+    [Tooltip("How Fast You Can Fire A Laser")]
+    [SerializeField] private float _fireRate;
+
+    [SerializeField] private GameObject _laserPrefab;
+
+    //Private Variables
+    private bool _canFireLaser = true;
+    private WaitForSeconds _laserCooldownTime;
+
     void Start()
     {
         transform.position = Vector3.zero;
+        _laserCooldownTime = new WaitForSeconds(_fireRate);
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         Movement();
         PlayerBounds();
+        if (Input.GetKeyDown(KeyCode.Space) && _canFireLaser == true)
+        {
+            FireLaser();
+        }
     }
 
     private void Movement()
@@ -25,7 +40,7 @@ public class Player : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
-        transform.Translate(direction * speed * Time.deltaTime);
+        transform.Translate(direction * _speed * Time.deltaTime);
     }
 
     private void PlayerBounds()
@@ -37,5 +52,18 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(11.2f, transform.position.y, transform.position.z);
         else if(transform.position.x >= 11.3)
             transform.position = new Vector3(-11.2f, transform.position.y, transform.position.z);
+    }
+
+    private void FireLaser()
+    {
+        Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+        StartCoroutine(LaserCooldownRoutine());
+    }
+
+    private IEnumerator LaserCooldownRoutine()
+    {
+        _canFireLaser = false;
+        yield return _laserCooldownTime;
+        _canFireLaser = true;
     }
 }
