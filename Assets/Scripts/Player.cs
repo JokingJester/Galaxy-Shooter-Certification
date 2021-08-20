@@ -27,7 +27,11 @@ public class Player : MonoBehaviour
     private bool _tripleShotActive;
     private bool _shieldIsActive;
 
+    private int _score;
+
     private SpawnManager _spawnManager;
+
+    private UIManager _uiManager;
 
     private WaitForSeconds _laserCooldownTime;
     private WaitForSeconds _tripleShotCooldownTime;
@@ -40,6 +44,7 @@ public class Player : MonoBehaviour
         _tripleShotCooldownTime = new WaitForSeconds(_tripleShotFireRate);
         _tripleShotPowerDownTime = new WaitForSeconds(5);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
 
@@ -95,10 +100,14 @@ public class Player : MonoBehaviour
             return;
         }
         _lives--;
+
+        _uiManager.UpdateLives(_lives);
+
         if(_lives < 1)
         {
-            Destroy(this.gameObject);
             _spawnManager.OnPlayerDeath();
+            _uiManager.DisplayGameOverText();
+            Destroy(this.gameObject);
         }
     }
 
@@ -118,6 +127,13 @@ public class Player : MonoBehaviour
     {
         _shieldIsActive = true;
         _shieldVisual.SetActive(true);
+    }
+
+    //method to add 10 to score
+    public void AddScore(int addedScore)
+    {
+        _score += addedScore;
+        _uiManager.UpdateScoreText(_score);
     }
 
     private IEnumerator LaserCooldownRoutine()
