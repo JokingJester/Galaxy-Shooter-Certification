@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     [Tooltip("How Fast You Can Fire A Laser With Triple Shot Powerup")]
     [SerializeField] private float _tripleShotFireRate;
 
+    [SerializeField] private GameObject _shieldVisual;
+
     [Header("Prefabs")]
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
@@ -23,6 +25,7 @@ public class Player : MonoBehaviour
     private bool _canFireLaser = true;
     private bool _enableSpeedBoost;
     private bool _tripleShotActive;
+    private bool _shieldIsActive;
 
     private SpawnManager _spawnManager;
 
@@ -85,6 +88,12 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        if(_shieldIsActive == true)
+        {
+            _shieldIsActive = false;
+            _shieldVisual.SetActive(false);
+            return;
+        }
         _lives--;
         if(_lives < 1)
         {
@@ -103,6 +112,12 @@ public class Player : MonoBehaviour
     {
         _enableSpeedBoost = true;
         StartCoroutine(SpeedBoostPowerDownRoutine());
+    }
+
+    public void ShieldActive()
+    {
+        _shieldIsActive = true;
+        _shieldVisual.SetActive(true);
     }
 
     private IEnumerator LaserCooldownRoutine()
