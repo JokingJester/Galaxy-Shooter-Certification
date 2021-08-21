@@ -6,8 +6,10 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed = 4;
     [SerializeField] private int _addedScore = 10;
+    [SerializeField] private AudioClip _explosionSound;
 
     private Animator _anim;
+    private AudioSource _audioSource;
     private bool destroyEnemy;
     private BoxCollider2D _boxCollider2D;
     private Player _player;
@@ -15,6 +17,7 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -47,6 +50,7 @@ public class Enemy : MonoBehaviour
             _anim.SetTrigger("OnEnemyDeath");
             _boxCollider2D.enabled = false;
             _speed = 0;
+            _audioSource.Play();
         }
 
         if(other.tag == "Player")
@@ -56,6 +60,7 @@ public class Enemy : MonoBehaviour
             _anim.SetTrigger("OnEnemyDeath");
             _boxCollider2D.enabled = false;
             _speed = 0;
+            _audioSource.Play();
         }
     }
 }

@@ -6,6 +6,7 @@ public class Asteroid : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private GameObject _explosionPrefab;
+
     private SpawnManager _spawnManager;
 
     private void Start()
@@ -23,9 +24,9 @@ public class Asteroid : MonoBehaviour
         if(collision.tag == "Laser")
         {
             GameObject spawnedExplosion = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(spawnedExplosion, 3f);
-            Destroy(this.gameObject,1);
+            Destroy(spawnedExplosion, 4f);
             _spawnManager.StartSpawning();
+            Destroy(this.gameObject, 1);
         }
     }
 }

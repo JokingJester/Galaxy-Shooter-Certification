@@ -24,7 +24,12 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip _laserSound;
+
     //Private Variables
+    private AudioSource _audioSource;
+
     private bool _canFireLaser = true;
     private bool _enableSpeedBoost;
     private bool _tripleShotActive;
@@ -48,6 +53,7 @@ public class Player : MonoBehaviour
         _tripleShotPowerDownTime = new WaitForSeconds(5);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -92,6 +98,7 @@ public class Player : MonoBehaviour
         else
             Instantiate(_tripleShotPrefab, transform.position , Quaternion.identity);
         StartCoroutine(LaserCooldownRoutine());
+        _audioSource.PlayOneShot(_laserSound);
     }
 
     public void Damage()

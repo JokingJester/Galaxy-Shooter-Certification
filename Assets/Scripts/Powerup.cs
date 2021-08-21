@@ -7,6 +7,16 @@ public class Powerup : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private int _powerupID;
 
+    private AudioSource _audioSource;
+    private SpriteRenderer _renderer;
+
+
+    private void Start()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        _renderer = GetComponent<SpriteRenderer>();
+    }
+
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
@@ -35,7 +45,9 @@ public class Powerup : MonoBehaviour
                         break;
                 }
             }
-            Destroy(this.gameObject);
+            _renderer.enabled = false;
+            _audioSource.Play();
+            Destroy(this.gameObject, _audioSource.clip.length + 0.3f);
         }
     }
 }
