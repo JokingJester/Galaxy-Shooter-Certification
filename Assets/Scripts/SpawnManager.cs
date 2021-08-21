@@ -13,16 +13,23 @@ public class SpawnManager : MonoBehaviour
 
     private bool _stopSpawning;
     private WaitForSeconds _spawnEnemyCooldown;
+    private WaitForSeconds _startDelay;
 
     void Start()
     {
         _spawnEnemyCooldown = new WaitForSeconds(_spawnRate);
+        _startDelay = new WaitForSeconds(3);
+    }
+
+    public void StartSpawning()
+    {
         StartCoroutine(SpawnPowerupRoutine());
         StartCoroutine(SpawnEnemyRoutine());
     }
 
     private IEnumerator SpawnEnemyRoutine()
     {
+        yield return _startDelay;
         while (_stopSpawning == false)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8, 8), 8, 0);
@@ -34,6 +41,7 @@ public class SpawnManager : MonoBehaviour
     
     private IEnumerator SpawnPowerupRoutine()
     {
+        yield return _startDelay;
         while(_stopSpawning == false)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8, 8), 8, 0);

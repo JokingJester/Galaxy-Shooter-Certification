@@ -10,8 +10,6 @@ public class Enemy : MonoBehaviour
     private Animator _anim;
     private BoxCollider2D _boxCollider2D;
     private bool destroyEnemy;
-
-
     private void OnEnable()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
