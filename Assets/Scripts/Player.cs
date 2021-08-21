@@ -128,8 +128,6 @@ public class Player : MonoBehaviour
         _shieldIsActive = true;
         _shieldVisual.SetActive(true);
     }
-
-    //method to add 10 to score
     public void AddScore(int addedScore)
     {
         _score += addedScore;
