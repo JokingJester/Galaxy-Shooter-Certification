@@ -15,7 +15,10 @@ public class Player : MonoBehaviour
     [Tooltip("How Fast You Can Fire A Laser With Triple Shot Powerup")]
     [SerializeField] private float _tripleShotFireRate;
 
+    [Header("Ship Visuals")]
     [SerializeField] private GameObject _shieldVisual;
+    [SerializeField] private GameObject _leftEngine;
+    [SerializeField] private GameObject _rightEngine;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject _laserPrefab;
@@ -100,6 +103,22 @@ public class Player : MonoBehaviour
             return;
         }
         _lives--;
+
+        if(_lives == 2)
+        {
+            int randomThruster = Random.Range(0, 2);
+            if (randomThruster == 0)
+                _leftEngine.SetActive(true);
+            else if (randomThruster == 2 || randomThruster == 1)
+                _rightEngine.SetActive(true);
+        }
+        else if(_lives == 1)
+        {
+            if (_leftEngine.activeInHierarchy == false)
+                _leftEngine.SetActive(true);
+            else if (_rightEngine.activeInHierarchy == false)
+                _rightEngine.SetActive(true);
+        }
 
         _uiManager.UpdateLives(_lives);
 

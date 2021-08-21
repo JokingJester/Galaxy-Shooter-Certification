@@ -6,10 +6,12 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed = 4;
     [SerializeField] private int _addedScore = 10;
-    private Player _player;
+
     private Animator _anim;
-    private BoxCollider2D _boxCollider2D;
     private bool destroyEnemy;
+    private BoxCollider2D _boxCollider2D;
+    private Player _player;
+
     private void OnEnable()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
