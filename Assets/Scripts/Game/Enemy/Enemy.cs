@@ -19,7 +19,8 @@ public class Enemy : MonoBehaviour
 
     private AudioSource _audioSource;
 
-    private bool isBeingDestroyed;
+    private bool _isBeingDestroyed;
+    private bool _canFireLasers = true;
 
     private BoxCollider2D _boxCollider2D;
 
@@ -30,25 +31,35 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
+        GameManager.onPlayerDeath += StopFiringLasers;
         _player = GameObject.Find("Player").GetComponent<Player>();
-        _audioSource = GetComponent<AudioSource>();
+    }
+
+    private void OnDisable()
+    {
+        GameManager.onPlayerDeath -= StopFiringLasers;
     }
 
     private void Start()
     {
         _anim = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
     }
     void Update()
     {
         Movement();
+        FireLasers();
+    }
 
-        if(Time.time > _canFire && isBeingDestroyed == false)
+    private void FireLasers()
+    {
+        if (Time.time > _canFire && _isBeingDestroyed == false && _canFireLasers == true)
         {
             GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
             Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
 
-            foreach(var laser in lasers)
+            foreach (var laser in lasers)
             {
                 laser.AssignEnemyLaser();
             }
@@ -58,7 +69,6 @@ public class Enemy : MonoBehaviour
             _fireRate = Random.Range(3, 7);
             _canFire = Time.time + _fireRate;
         }
-
     }
 
     private void Movement()
@@ -79,8 +89,8 @@ public class Enemy : MonoBehaviour
             _boxCollider2D.enabled = false;
             _speed = 0;
             _audioSource.Play();
-            isBeingDestroyed = true;
-            Destroy(this.gameObject, 2.6f);
+            _isBeingDestroyed = true;
+            Destroy(this.gameObject, 2.5f);
         }
 
         if(other.tag == "Player")
@@ -91,8 +101,13 @@ public class Enemy : MonoBehaviour
             _boxCollider2D.enabled = false;
             _speed = 0;
             _audioSource.Play();
-            isBeingDestroyed = true;
-            Destroy(this.gameObject, 2.7f);
+            _isBeingDestroyed = true;
+            Destroy(this.gameObject, 2.5f);
         }
+    }
+
+    public void StopFiringLasers()
+    {
+        _canFireLasers = false;
     }
 }

@@ -15,6 +15,16 @@ public class SpawnManager : MonoBehaviour
     private WaitForSeconds _spawnEnemyCooldown;
     private WaitForSeconds _startDelay;
 
+
+    private void OnEnable()
+    {
+        GameManager.onPlayerDeath += OnPlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.onPlayerDeath -= OnPlayerDeath;
+    }
     void Start()
     {
         _spawnEnemyCooldown = new WaitForSeconds(_spawnRate);

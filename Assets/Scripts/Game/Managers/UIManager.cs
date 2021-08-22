@@ -13,18 +13,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _livesImage;
     [SerializeField] private Sprite[] _liveSprites;
 
-    private bool canRestartGame;
     private WaitForSeconds _flickerCooldown;
 
-
-    private void Update()
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.R) && canRestartGame == true)
-        {
-            int sceneIndexNumber = SceneManager.GetActiveScene().buildIndex;
-            SceneManager.LoadScene(sceneIndexNumber);
-        }
+        GameManager.onPlayerDeath += DisplayGameOverText;
+    }
 
+    private void OnDisable()
+    {
+        GameManager.onPlayerDeath -= DisplayGameOverText;
     }
 
     void Start()
@@ -47,7 +45,6 @@ public class UIManager : MonoBehaviour
     {
         StartCoroutine(TextFlickerRoutine());
         _restartText.gameObject.SetActive(true);
-        canRestartGame = true;
     }
     
     private IEnumerator TextFlickerRoutine()
