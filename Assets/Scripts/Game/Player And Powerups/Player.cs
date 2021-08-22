@@ -31,6 +31,9 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip _laserSound;
     [SerializeField] private AudioClip _explosionSound;
 
+    [Header("Camera")]
+    [SerializeField] private CameraShake _cameraShake;
+
     //Private Variables
     private AudioSource _audioSource;
 
@@ -160,6 +163,7 @@ public class Player : MonoBehaviour
 
         _audioSource.PlayOneShot(_explosionSound);
         _uiManager.UpdateLives(_lives);
+        _cameraShake.StartShakingCamera();
 
         if(_lives < 1)
         {

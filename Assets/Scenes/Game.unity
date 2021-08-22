@@ -592,6 +592,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -724,6 +725,22 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83eb67f756395b8449c2471251638306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cameraTransform: {fileID: 963194228}
+  shakeFrequency: 0.2
+  _secondsCameraShakes: 0.6
+  _canShakeCamera: 0
 --- !u!1 &969995512
 GameObject:
   m_ObjectHideFlags: 0
@@ -851,6 +868,7 @@ MonoBehaviour:
   _explosionPrefab: {fileID: 6468185968322470983, guid: 5484b50aad9a8104e95e380264a5b832, type: 3}
   _laserSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
+  _cameraShake: {fileID: 963194230}
 --- !u!212 &1187306178
 SpriteRenderer:
   m_ObjectHideFlags: 0
