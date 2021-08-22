@@ -43,6 +43,11 @@ public class Powerup : MonoBehaviour
                     case 2:
                         player.ShieldActive();
                         break;
+                    case 3:
+                        player.AddHealth();
+                        break;
+                    default:
+                        break;
                 }
             }
             _renderer.enabled = false;

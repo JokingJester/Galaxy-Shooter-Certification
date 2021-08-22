@@ -187,6 +187,20 @@ public class Player : MonoBehaviour
         _shieldColor.color = new Color(_shieldColor.color.r, _shieldColor.color.g, _shieldColor.color.b, 1);
         _shieldVisual.SetActive(true);
     }
+
+    public void AddHealth()
+    {
+        if (_lives == 3)
+            return;
+
+        _lives++;
+        _uiManager.UpdateLives(_lives);
+
+        if (_leftEngine.activeInHierarchy == true)
+            _leftEngine.SetActive(false);
+        else if (_rightEngine.activeInHierarchy == true)
+            _rightEngine.SetActive(false);
+    }
     public void AddScore(int addedScore)
     {
         _score += addedScore;
