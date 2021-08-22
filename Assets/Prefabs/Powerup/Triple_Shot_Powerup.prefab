@@ -122,12 +122,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5351741363837827334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95d3bdb4b8707054eab709694d0d8fe3, type: 3}
+  m_Script: {fileID: 11500000, guid: ce0173382535cf4439efe31827bf5759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
   _powerupID: 0
-  _audioSource: {fileID: 0}
 --- !u!95 &1214068266
 Animator:
   serializedVersion: 3

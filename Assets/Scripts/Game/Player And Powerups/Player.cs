@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
+    [SerializeField] private GameObject _explosionPrefab;
 
     [Header("Audio")]
     [SerializeField] private AudioClip _laserSound;
@@ -128,10 +129,12 @@ public class Player : MonoBehaviour
                 _rightEngine.SetActive(true);
         }
 
+        _audioSource.PlayOneShot(_explosionSound);
         _uiManager.UpdateLives(_lives);
 
         if(_lives < 1)
         {
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
     }

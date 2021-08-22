@@ -758,7 +758,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1187306176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e03905f8351eb8c45b388e806eca415f, type: 3}
+  m_Script: {fileID: 11500000, guid: 144c90616e6c86b4fbe6d991a2605644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _lives: 3
@@ -771,6 +771,7 @@ MonoBehaviour:
   _rightEngine: {fileID: 215995394}
   _laserPrefab: {fileID: 7518740195569841668, guid: 5142a597534155d4e9478100b3d12221, type: 3}
   _tripleShotPrefab: {fileID: 984695267988362267, guid: db1ab6eb6c977ff4a997580391c4be76, type: 3}
+  _explosionPrefab: {fileID: 6468185968322470983, guid: 5484b50aad9a8104e95e380264a5b832, type: 3}
   _laserSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
 --- !u!212 &1187306178
@@ -1393,7 +1394,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1373345197}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9f485c3ce96d8419b723ab02a60a8d, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a8a2e602a6570b409afc3dc3677826f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1373345199
@@ -1598,7 +1599,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1516922912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a155365f621a19a43beaeed2813aed6d, type: 3}
+  m_Script: {fileID: 11500000, guid: ed3899d302feaaa48a4424f9834e2d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreText: {fileID: 1345885006}
@@ -1699,7 +1700,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1656519033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8eba188b8419c51439dc679eefab6c4c, type: 3}
+  m_Script: {fileID: 11500000, guid: a4b8b32112627c14bb28e870b6966117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnRate: 3
@@ -2026,13 +2027,28 @@ PrefabInstance:
       propertyPath: _audioSpawnPrefab
       value: 
       objectReference: {fileID: 5302670332349665759, guid: 740240ef6a0aac149b872949b31a4e1a, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6411546223849213443, guid: bac1a24020d57794d990607ca6afc6eb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bac1a24020d57794d990607ca6afc6eb, type: 3}
 --- !u!1 &6411546223849213441 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 314158191436948940, guid: bac1a24020d57794d990607ca6afc6eb, type: 3}
   m_PrefabInstance: {fileID: 6411546223849213440}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6411546223849213442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6411546223849213441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbb67bef7d17d741b44c61023b3572c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 19
+  _explosionPrefab: {fileID: 6468185968322470983, guid: 5484b50aad9a8104e95e380264a5b832, type: 3}
 --- !u!50 &6411546223849213446
 Rigidbody2D:
   serializedVersion: 4

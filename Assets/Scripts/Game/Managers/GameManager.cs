@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static Action onPlayerDeath;
     private bool knowsGameIsOver;
-   [SerializeField] private Player _player;
+    private Player _player;
 
     void Start()
     {
