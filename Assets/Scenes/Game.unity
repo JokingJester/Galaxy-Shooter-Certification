@@ -768,6 +768,7 @@ MonoBehaviour:
   _fireRate: 0.5
   _tripleShotFireRate: 0.2
   _shieldVisual: {fileID: 1870113219}
+  _shieldColor: {fileID: 1870113220}
   _leftEngine: {fileID: 2116417543}
   _rightEngine: {fileID: 215995394}
   _laserPrefab: {fileID: 7518740195569841668, guid: 5142a597534155d4e9478100b3d12221, type: 3}
@@ -1258,7 +1259,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1302196338
 GameObject:
@@ -1962,7 +1963,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4394747270113087854, guid: bac1a24020d57794d990607ca6afc6eb, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4394747270113087854, guid: bac1a24020d57794d990607ca6afc6eb, type: 3}
       propertyPath: m_LocalPosition.x

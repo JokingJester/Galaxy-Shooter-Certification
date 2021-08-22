@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
 
     [Header("Ship Visuals")]
     [SerializeField] private GameObject _shieldVisual;
+    [SerializeField] private SpriteRenderer _shieldColor;
     [SerializeField] private GameObject _leftEngine;
     [SerializeField] private GameObject _rightEngine;
 
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour
     private bool _shieldIsActive;
 
     private int _score;
+    private int _shieldHealth;
 
     private SpawnManager _spawnManager;
 
@@ -114,8 +116,18 @@ public class Player : MonoBehaviour
     {
         if(_shieldIsActive == true)
         {
-            _shieldIsActive = false;
-            _shieldVisual.SetActive(false);
+            _shieldHealth--;
+
+            if (_shieldHealth == 2)
+                _shieldColor.color = new Color(_shieldColor.color.r, _shieldColor.color.g, _shieldColor.color.b, 0.60f);
+            else if (_shieldHealth == 1)
+                _shieldColor.color = new Color(_shieldColor.color.r, _shieldColor.color.g, _shieldColor.color.b, 0.30f);
+
+            if(_shieldHealth < 1)
+            {
+                _shieldIsActive = false;
+                _shieldVisual.SetActive(false);
+            }
             return;
         }
         _lives--;
@@ -161,6 +173,8 @@ public class Player : MonoBehaviour
     public void ShieldActive()
     {
         _shieldIsActive = true;
+        _shieldHealth = 3;
+        _shieldColor.color = new Color(_shieldColor.color.r, _shieldColor.color.g, _shieldColor.color.b, 1);
         _shieldVisual.SetActive(true);
     }
     public void AddScore(int addedScore)
