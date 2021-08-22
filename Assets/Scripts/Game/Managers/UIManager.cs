@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     [Header("UI Elements")]
+    [SerializeField] private Text _ammoText;
     [SerializeField] private Text _scoreText;
     [SerializeField] private Text _gameOverText;
     [SerializeField] private Text _restartText;
@@ -41,6 +42,10 @@ public class UIManager : MonoBehaviour
         _livesImage.sprite = _liveSprites[currentLives];
     }
 
+    public void UpdatePlayerAmmo(int ammo)
+    {
+        _ammoText.text = ammo.ToString();
+    }
     public void DisplayGameOverText()
     {
         StartCoroutine(TextFlickerRoutine());

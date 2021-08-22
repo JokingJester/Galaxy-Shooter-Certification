@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
     private bool _tripleShotActive;
     private bool _shieldIsActive;
 
+    private int _maxAmmo = 15;
+    private int _currentAmmo;
     private int _score;
     private int _shieldHealth;
 
@@ -59,6 +61,7 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
+        _currentAmmo = _maxAmmo;
     }
 
 
@@ -104,10 +107,17 @@ public class Player : MonoBehaviour
 
     private void FireLaser()
     {
-        if(_tripleShotActive == false)
+        if (_tripleShotActive == false && _currentAmmo >= 1)
+        {
+            _currentAmmo--;
+            _uiManager.UpdatePlayerAmmo(_currentAmmo);
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+        }
+        else if (_tripleShotActive == true)
+            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         else
-            Instantiate(_tripleShotPrefab, transform.position , Quaternion.identity);
+            return;
+
         StartCoroutine(LaserCooldownRoutine());
         _audioSource.PlayOneShot(_laserSound);
     }
