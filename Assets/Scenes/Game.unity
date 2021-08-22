@@ -772,6 +772,7 @@ MonoBehaviour:
   _laserPrefab: {fileID: 7518740195569841668, guid: 5142a597534155d4e9478100b3d12221, type: 3}
   _tripleShotPrefab: {fileID: 984695267988362267, guid: db1ab6eb6c977ff4a997580391c4be76, type: 3}
   _laserSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
 --- !u!212 &1187306178
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1658,7 +1659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eba188b8419c51439dc679eefab6c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnRate: 1.5
+  _spawnRate: 3
   _enemyPrefab: {fileID: 6930307334510498606, guid: 7e0c49697df3cd84c81d7276a255e894, type: 3}
   _enemyContainer: {fileID: 1302196339}
   _powerups:
@@ -1961,6 +1962,10 @@ PrefabInstance:
     - target: {fileID: 6411546223849213442, guid: bac1a24020d57794d990607ca6afc6eb, type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411546223849213443, guid: bac1a24020d57794d990607ca6afc6eb, type: 3}
+      propertyPath: _speed
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 6411546223849213443, guid: bac1a24020d57794d990607ca6afc6eb, type: 3}
       propertyPath: _audioSpawn

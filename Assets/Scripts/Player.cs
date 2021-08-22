@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioClip _laserSound;
+    [SerializeField] private AudioClip _explosionSound;
 
     //Private Variables
     private AudioSource _audioSource;
