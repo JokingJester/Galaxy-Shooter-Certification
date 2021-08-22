@@ -763,6 +763,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lives: 3
   _regularSpeed: 5
+  _thrusterSpeed: 9
   _speedBoostSpeed: 12
   _fireRate: 0.5
   _tripleShotFireRate: 0.2
@@ -1703,7 +1704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4b8b32112627c14bb28e870b6966117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnRate: 3
+  _spawnRate: 2
   _enemyPrefab: {fileID: 6930307334510498606, guid: 7e0c49697df3cd84c81d7276a255e894, type: 3}
   _enemyContainer: {fileID: 1302196339}
   _powerups:

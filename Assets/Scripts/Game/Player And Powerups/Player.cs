@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [Header("Player Settings")]
     [SerializeField] private int _lives;
     [SerializeField] private float _regularSpeed;
+    [SerializeField] private float _thrusterSpeed;
     [SerializeField] private float _speedBoostSpeed;
 
     [Tooltip("How Fast You Can Fire A Laser")]
@@ -79,7 +80,13 @@ public class Player : MonoBehaviour
         if(_enableSpeedBoost == true)
             transform.Translate(direction * _speedBoostSpeed * Time.deltaTime);
         else
-            transform.Translate(direction * _regularSpeed * Time.deltaTime);
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+                transform.Translate(direction * _thrusterSpeed * Time.deltaTime);
+            else
+                transform.Translate(direction * _regularSpeed * Time.deltaTime);
+        }
+
     }
 
     private void PlayerBounds()
