@@ -46,12 +46,16 @@ public class Powerup : MonoBehaviour
                     case 3:
                         player.AddHealth();
                         break;
+                    case 4:
+                        player.RefillAmmo();
+                        break;
                     default:
                         break;
                 }
             }
             _renderer.enabled = false;
             _audioSource.Play();
+            Destroy(GetComponent<BoxCollider2D>());
             Destroy(this.gameObject, _audioSource.clip.length + 0.3f);
         }
     }

@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     {
         _scoreText.text = "Score: 0";
         _flickerCooldown = new WaitForSeconds(0.7f);
+        UpdatePlayerAmmo(15);
     }
 
     public void UpdateScoreText(int newScore)
@@ -43,7 +44,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdatePlayerAmmo(int ammo)
     {
-        _ammoText.text = ammo.ToString();
+        _ammoText.text = ammo.ToString() + "/15";
     }
     public void DisplayGameOverText()
     {

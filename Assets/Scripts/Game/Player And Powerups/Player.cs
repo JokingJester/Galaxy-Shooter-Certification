@@ -94,7 +94,6 @@ public class Player : MonoBehaviour
             else
                 transform.Translate(direction * _regularSpeed * Time.deltaTime);
         }
-
     }
 
     private void PlayerBounds()
@@ -204,6 +203,12 @@ public class Player : MonoBehaviour
             _leftEngine.SetActive(false);
         else if (_rightEngine.activeInHierarchy == true)
             _rightEngine.SetActive(false);
+    }
+
+    public void RefillAmmo()
+    {
+        _currentAmmo = _maxAmmo;
+        _uiManager.UpdatePlayerAmmo(_currentAmmo);
     }
     public void AddScore(int addedScore)
     {
