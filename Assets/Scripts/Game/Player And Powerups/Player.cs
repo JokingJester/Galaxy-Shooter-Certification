@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     [Header("Player Settings")]
     [SerializeField] private int _lives;
+
     [SerializeField] private float _regularSpeed;
     [SerializeField] private float _thrusterSpeed;
     [SerializeField] private float _speedBoostSpeed;
@@ -15,6 +17,14 @@ public class Player : MonoBehaviour
 
     [Tooltip("How Fast You Can Fire A Laser With Triple Shot Powerup")]
     [SerializeField] private float _tripleShotFireRate;
+
+    [Tooltip("How much the stamina decreases when holding left shift")]
+    [SerializeField] private float _staminaDecreaseRate = 0.5f;
+
+    [Tooltip("How much stamina increases when not holding left shift")]
+    [SerializeField] private float _staminaIncreaseRate = 0.2f;
+
+    [SerializeField] private float _totalFuel = 100;
 
     [Header("Ship Visuals")]
     [SerializeField] private GameObject _shieldVisual;
@@ -34,6 +44,7 @@ public class Player : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private CameraShake _cameraShake;
 
+
     //Private Variables
     private AudioSource _audioSource;
 
@@ -41,13 +52,14 @@ public class Player : MonoBehaviour
     private bool _enableSpeedBoost;
     private bool _tripleShotActive;
     private bool _shieldIsActive;
+    private bool _fuelDepleted;
+
+    private float _speed;
 
     private int _maxAmmo = 15;
     private int _currentAmmo;
     private int _score;
     private int _shieldHealth;
-
-    private SpawnManager _spawnManager;
 
     private UIManager _uiManager;
 
@@ -61,10 +73,10 @@ public class Player : MonoBehaviour
         _laserCooldownTime = new WaitForSeconds(_fireRate);
         _tripleShotCooldownTime = new WaitForSeconds(_tripleShotFireRate);
         _tripleShotPowerDownTime = new WaitForSeconds(5);
-        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
         _currentAmmo = _maxAmmo;
+        _speed = _regularSpeed;
     }
 
 
@@ -86,13 +98,53 @@ public class Player : MonoBehaviour
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
         if(_enableSpeedBoost == true)
+        {
             transform.Translate(direction * _speedBoostSpeed * Time.deltaTime);
+            _totalFuel = 100;
+            _fuelDepleted = false;
+            _uiManager.UpdateFuel(_totalFuel, _fuelDepleted);
+        }
         else
         {
-            if (Input.GetKey(KeyCode.LeftShift))
-                transform.Translate(direction * _thrusterSpeed * Time.deltaTime);
+            bool isMoving;
+
+            //I created another input variable to get the precise input of when the player presses the keys.
+            //This is so I can stop the stamina from decreasing as fast as possible when the player stops moving and the key is held down
+            Vector3 rawInput = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+            if (rawInput.x == 0 && rawInput.y == 0)
+                isMoving = false;
             else
-                transform.Translate(direction * _regularSpeed * Time.deltaTime);
+                isMoving = true;
+
+            if (Input.GetKey(KeyCode.LeftShift) && _fuelDepleted == false && isMoving == true)
+            {
+                if(_totalFuel > 0f)
+                {
+                    _speed = _thrusterSpeed;
+                    _totalFuel -= _staminaDecreaseRate;
+                }
+                else
+                {
+                    _totalFuel = 0;
+                    _fuelDepleted = true;
+                }
+            }
+            else
+            {
+                _speed = _regularSpeed;
+                if(_totalFuel < 100)
+                {
+                    _totalFuel += _staminaIncreaseRate;
+                }
+                else
+                {
+                    _totalFuel = 100;
+                    _fuelDepleted = false;
+                }
+            }
+            _uiManager.UpdateFuel(_totalFuel, _fuelDepleted);
+            transform.Translate(direction * _speed * Time.deltaTime);
         }
     }
 
@@ -162,13 +214,15 @@ public class Player : MonoBehaviour
 
         _audioSource.PlayOneShot(_explosionSound);
         _uiManager.UpdateLives(_lives);
-        _cameraShake.StartShakingCamera();
 
-        if(_lives < 1)
+        if (_lives < 1)
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            _cameraShake.StartShakingCamera(1.5f, 0.2f);
             Destroy(this.gameObject);
         }
+        else
+            _cameraShake.StartShakingCamera(0.6f, 0.2f);
     }
 
     public void TripleShotActive()
@@ -204,7 +258,6 @@ public class Player : MonoBehaviour
         else if (_rightEngine.activeInHierarchy == true)
             _rightEngine.SetActive(false);
     }
-
     public void RefillAmmo()
     {
         _currentAmmo = _maxAmmo;

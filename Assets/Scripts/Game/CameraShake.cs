@@ -5,11 +5,13 @@ using UnityEngine;
 public class CameraShake : MonoBehaviour
 {
     [SerializeField] private Transform _cameraTransform;
-    [SerializeField] private float shakeFrequency = 0.2f;
-    [SerializeField] private float _secondsCameraShakes = 0.6f;
 
     private bool _canShakeCamera;
+
     private float _duration;
+    private float _shakeFrequency = 0.2f;
+    private float _secondsCameraShakes = 0.6f;
+
     private Vector3 _originalPosOfCam;
 
     void Start()
@@ -31,13 +33,14 @@ public class CameraShake : MonoBehaviour
 
     private void ShakeCamera()
     {
-        _cameraTransform.transform.position = _originalPosOfCam + Random.insideUnitSphere * shakeFrequency;
+        _cameraTransform.transform.position = _originalPosOfCam + Random.insideUnitSphere * _shakeFrequency;
     }
     
-    public void StartShakingCamera()
+    public void StartShakingCamera(float secondsCameraShakes, float shakeFrequency)
     {
+        _shakeFrequency = shakeFrequency;
+        _secondsCameraShakes = secondsCameraShakes;
         _duration = Time.time + _secondsCameraShakes;
         _canShakeCamera = true;
-
     }
 }

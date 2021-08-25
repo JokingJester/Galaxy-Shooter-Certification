@@ -5,11 +5,19 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("UI Elements")]
+    [Header("Text")]
     [SerializeField] private Text _ammoText;
     [SerializeField] private Text _scoreText;
     [SerializeField] private Text _gameOverText;
     [SerializeField] private Text _restartText;
+
+    [Header("Thruster Slider Settings")]
+    [SerializeField] private Slider _thrusterStamina;
+    [SerializeField] private Image _sliderCurrentColor;
+    [SerializeField] private Color _fuelNotDepletedColor;
+    [SerializeField] private Color _fuelRechargeColor;
+
+    [Header("Lives")]
     [SerializeField] private Image _livesImage;
     [SerializeField] private Sprite[] _liveSprites;
 
@@ -52,6 +60,14 @@ public class UIManager : MonoBehaviour
         _restartText.gameObject.SetActive(true);
     }
     
+    public void UpdateFuel(float fuelAmount, bool fuelIsDepleted)
+    {
+        _thrusterStamina.value = fuelAmount;
+        if (fuelIsDepleted == false)
+            _sliderCurrentColor.color = _fuelNotDepletedColor;
+        else
+            _sliderCurrentColor.color = _fuelRechargeColor;
+    }
     private IEnumerator TextFlickerRoutine()
     {
         while (true)
