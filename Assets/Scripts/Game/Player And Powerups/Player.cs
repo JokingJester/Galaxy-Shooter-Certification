@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     [Tooltip("How much stamina increases when not holding left shift")]
     [SerializeField] private float _staminaIncreaseRate = 0.2f;
 
-    [SerializeField] private float _totalFuel = 100;
+    [SerializeField] private float _totalFuel = 3;
 
     [Header("Ship Visuals")]
     [SerializeField] private GameObject _shieldVisual;
@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
     private bool _fuelDepleted;
 
     private float _speed;
+    private float _maxFuelAmount;
 
     private int _maxAmmo = 15;
     private int _currentAmmo;
@@ -77,6 +78,7 @@ public class Player : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _currentAmmo = _maxAmmo;
         _speed = _regularSpeed;
+        _maxFuelAmount = _totalFuel;
     }
 
 
@@ -122,7 +124,7 @@ public class Player : MonoBehaviour
                 if(_totalFuel > 0f)
                 {
                     _speed = _thrusterSpeed;
-                    _totalFuel -= _staminaDecreaseRate;
+                    _totalFuel -= _staminaDecreaseRate * Time.deltaTime;
                 }
                 else
                 {
@@ -133,13 +135,13 @@ public class Player : MonoBehaviour
             else
             {
                 _speed = _regularSpeed;
-                if(_totalFuel < 100)
+                if(_totalFuel < _maxFuelAmount)
                 {
-                    _totalFuel += _staminaIncreaseRate;
+                    _totalFuel += _staminaIncreaseRate * Time.deltaTime;
                 }
                 else
                 {
-                    _totalFuel = 100;
+                    _totalFuel = _maxFuelAmount;
                     _fuelDepleted = false;
                 }
             }

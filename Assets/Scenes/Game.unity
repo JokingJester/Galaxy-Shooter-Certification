@@ -655,7 +655,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
+  m_MaxValue: 3
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -1056,7 +1056,10 @@ MonoBehaviour:
   _thrusterSpeed: 9
   _speedBoostSpeed: 12
   _fireRate: 0.5
-  _tripleShotFireRate: 0.2
+  _tripleShotFireRate: 0.4
+  _staminaDecreaseRate: 2
+  _staminaIncreaseRate: 1
+  _totalFuel: 3
   _shieldVisual: {fileID: 1870113219}
   _shieldColor: {fileID: 1870113220}
   _leftEngine: {fileID: 2116417543}
@@ -1067,7 +1070,6 @@ MonoBehaviour:
   _laserSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _cameraShake: {fileID: 963194230}
-  _totalFuel: 100
 --- !u!212 &1187306178
 SpriteRenderer:
   m_ObjectHideFlags: 0
