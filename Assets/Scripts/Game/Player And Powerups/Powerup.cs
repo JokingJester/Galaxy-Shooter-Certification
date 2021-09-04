@@ -49,6 +49,9 @@ public class Powerup : MonoBehaviour
                     case 4:
                         player.RefillAmmo();
                         break;
+                    case 5:
+                        player.ChainLaserActive();
+                        break;
                     default:
                         break;
                 }

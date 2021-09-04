@@ -1066,10 +1066,12 @@ MonoBehaviour:
   _rightEngine: {fileID: 215995394}
   _laserPrefab: {fileID: 7518740195569841668, guid: 5142a597534155d4e9478100b3d12221, type: 3}
   _tripleShotPrefab: {fileID: 984695267988362267, guid: db1ab6eb6c977ff4a997580391c4be76, type: 3}
+  _chainLaserPrefab: {fileID: 364396156308309549, guid: da5c707e7e0684248802e46ba2479d14, type: 3}
   _explosionPrefab: {fileID: 6468185968322470983, guid: 5484b50aad9a8104e95e380264a5b832, type: 3}
   _laserSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _cameraShake: {fileID: 963194230}
+  _chainLaserActive: 0
 --- !u!212 &1187306178
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2160,9 +2162,11 @@ MonoBehaviour:
   - {fileID: 5351741363837827334, guid: 15b6d10c036dc6c4dbe4d99d6cc6d97d, type: 3}
   - {fileID: 4946932883135518771, guid: f471eeb42c762524aa0a80561cd8d6fa, type: 3}
   - {fileID: 8826157618210944288, guid: d57e65ef34fefee42b5f72529859679b, type: 3}
+  - {fileID: 3639623536767308633, guid: b2560fd6a1f91b4419eff423e1f24d3f, type: 3}
+  - {fileID: 3639623536767308633, guid: b2560fd6a1f91b4419eff423e1f24d3f, type: 3}
   - {fileID: 1721378928002592392, guid: e2485be1d246b494b84eae971bae179a, type: 3}
-  - {fileID: 3639623536767308633, guid: b2560fd6a1f91b4419eff423e1f24d3f, type: 3}
-  - {fileID: 3639623536767308633, guid: b2560fd6a1f91b4419eff423e1f24d3f, type: 3}
+  - {fileID: 6280461970948713152, guid: 1e7e255fcdd77d74ebc6516369d41f8a, type: 3}
+  - {fileID: 6280461970948713152, guid: 1e7e255fcdd77d74ebc6516369d41f8a, type: 3}
 --- !u!1 &1870113219
 GameObject:
   m_ObjectHideFlags: 0

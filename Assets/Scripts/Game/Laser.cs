@@ -5,17 +5,28 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed;
+    [SerializeField] private float _speed;
+
+    [SerializeField] private bool _isChainLaser;
 
     private bool _isEnemyLaser;
+    private int _shipsDestroyed;
+    private Transform _enemyTarget;
 
     void Update()
     {
-        if (_isEnemyLaser == false)
+        if (_isEnemyLaser == false && _shipsDestroyed == 0)
             MoveUp();
-        else
+        else if(_isEnemyLaser == true)
             MoveDown();
+
+        if(_shipsDestroyed == 1)
+        {
+            if (_enemyTarget != null)
+                transform.position = Vector3.MoveTowards(transform.position, _enemyTarget.position, _speed * 2 * Time.deltaTime);
+            else
+                MoveUp();
+        }
     }
 
     private void MoveDown()
@@ -67,6 +78,50 @@ public class Laser : MonoBehaviour
                 player.Damage();
                 Destroy(this.gameObject);
             }
+        }
+    }
+
+    public void DestroyLaser()
+    {
+        if (_isChainLaser == false)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _shipsDestroyed++;
+            if (_shipsDestroyed == 2)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                FindClosestEnemyTarget();
+            }
+        }
+
+    }
+
+    private void FindClosestEnemyTarget()
+    {
+        GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        float minDistance = Mathf.Infinity;
+        GameObject closestEnemy = null;
+        foreach (var enemy in allEnemies)
+        {
+            Enemy possibleEnemyTarget = enemy.GetComponent<Enemy>();
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < minDistance && possibleEnemyTarget.isTargeted == false)
+            {
+                minDistance = distance;
+                closestEnemy = enemy;
+            }
+        }
+
+        if (closestEnemy != null)
+        {
+            _enemyTarget = closestEnemy.transform;
+            closestEnemy.GetComponent<Enemy>().isTargeted = true;
         }
     }
 }

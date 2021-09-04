@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 
     private bool _isBeingDestroyed;
     private bool _canFireLasers = true;
-
+    public bool isTargeted;
     private BoxCollider2D _boxCollider2D;
 
     private float _canFire = -1;
@@ -82,7 +82,10 @@ public class Enemy : MonoBehaviour
     {
         if(other.tag == "Laser")
         {
-            Destroy(other.gameObject);
+            isTargeted = true;
+            Laser laser = other.gameObject.GetComponent<Laser>();
+            if (laser != null)
+                laser.DestroyLaser();
             if(_player != null)
                 _player.AddScore(_addedScore);
             _anim.SetTrigger("OnEnemyDeath");

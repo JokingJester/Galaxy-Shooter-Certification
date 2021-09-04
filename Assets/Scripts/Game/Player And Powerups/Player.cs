@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
+    [SerializeField] private GameObject _chainLaserPrefab;
     [SerializeField] private GameObject _explosionPrefab;
 
     [Header("Audio")]
@@ -51,6 +52,7 @@ public class Player : MonoBehaviour
     private bool _canFireLaser = true;
     private bool _enableSpeedBoost;
     private bool _tripleShotActive;
+    [SerializeField]private bool _chainLaserActive;
     private bool _shieldIsActive;
     private bool _fuelDepleted;
 
@@ -163,7 +165,7 @@ public class Player : MonoBehaviour
 
     private void FireLaser()
     {
-        if (_tripleShotActive == false && _currentAmmo >= 1)
+        if (_tripleShotActive == false && _chainLaserActive == false &&  _currentAmmo >= 1)
         {
             _currentAmmo--;
             _uiManager.UpdatePlayerAmmo(_currentAmmo);
@@ -171,6 +173,8 @@ public class Player : MonoBehaviour
         }
         else if (_tripleShotActive == true)
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+        else if (_chainLaserActive == true)
+            Instantiate(_chainLaserPrefab, transform.position, Quaternion.identity);
         else
             return;
 
@@ -229,6 +233,7 @@ public class Player : MonoBehaviour
 
     public void TripleShotActive()
     {
+        _chainLaserActive = false;
         _tripleShotActive = true;
         StartCoroutine(TripleShotPowerDownRoutine());
     }
@@ -265,6 +270,13 @@ public class Player : MonoBehaviour
         _currentAmmo = _maxAmmo;
         _uiManager.UpdatePlayerAmmo(_currentAmmo);
     }
+
+    public void ChainLaserActive()
+    {
+        _tripleShotActive = false;
+        _chainLaserActive = true;
+        StartCoroutine(ChainLaserPowerDownRoutine());
+    }
     public void AddScore(int addedScore)
     {
         _score += addedScore;
@@ -291,5 +303,11 @@ public class Player : MonoBehaviour
     {
         yield return _tripleShotPowerDownTime;
         _enableSpeedBoost = false;
+    }
+
+    private IEnumerator ChainLaserPowerDownRoutine()
+    {
+        yield return _tripleShotPowerDownTime;
+        _chainLaserActive = false;
     }
 }
