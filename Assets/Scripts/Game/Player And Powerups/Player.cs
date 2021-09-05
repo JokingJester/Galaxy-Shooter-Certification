@@ -89,9 +89,7 @@ public class Player : MonoBehaviour
         Movement();
         PlayerBounds();
         if (Input.GetKeyDown(KeyCode.Space) && _canFireLaser == true)
-        {
             FireLaser();
-        }
     }
 
     private void Movement()
