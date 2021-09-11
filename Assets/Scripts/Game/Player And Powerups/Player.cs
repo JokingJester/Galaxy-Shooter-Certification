@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
     private bool _canFireLaser = true;
     private bool _enableSpeedBoost;
     private bool _tripleShotActive;
-    [SerializeField]private bool _chainLaserActive;
+    private bool _chainLaserActive;
     private bool _shieldIsActive;
     private bool _fuelDepleted;
 
