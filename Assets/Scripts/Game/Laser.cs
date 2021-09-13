@@ -23,7 +23,7 @@ public class Laser : MonoBehaviour
         if(_shipsDestroyed == 1)
         {
             if (_enemyTarget != null)
-                transform.position = Vector3.MoveTowards(transform.position, _enemyTarget.position, _speed * 2 * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, _enemyTarget.position, _speed * 2 * Time.deltaTime);
             else
                 MoveUp();
         }

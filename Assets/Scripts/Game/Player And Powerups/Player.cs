@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class Player : MonoBehaviour
 {
+    public static Action callPowerups;
+
     [Header("Player Settings")]
     [SerializeField] private int _lives;
 
@@ -45,10 +48,14 @@ public class Player : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private CameraShake _cameraShake;
 
+    [Header("UI")]
+    [SerializeField] private GameObject _denialSign;
+
 
     //Private Variables
     private AudioSource _audioSource;
 
+    private bool _canAttractPowerups = true;
     private bool _canFireLaser = true;
     private bool _enableSpeedBoost;
     private bool _tripleShotActive;
@@ -91,6 +98,15 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && _canFireLaser == true)
         {
             FireLaser();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C) && _canAttractPowerups == true)
+        {
+            if (callPowerups != null)
+            {
+                callPowerups();
+                StartCoroutine(AttractPowerupsRoutine());
+            }
         }
     }
 
@@ -204,7 +220,7 @@ public class Player : MonoBehaviour
 
         if(_lives == 2)
         {
-            int randomThruster = Random.Range(0, 2);
+            int randomThruster = UnityEngine.Random.Range(0, 2);
             if (randomThruster == 0)
                 _leftEngine.SetActive(true);
             else if (randomThruster == 2 || randomThruster == 1)
@@ -309,5 +325,14 @@ public class Player : MonoBehaviour
     {
         yield return _tripleShotPowerDownTime;
         _chainLaserActive = false;
+    }
+
+    private IEnumerator AttractPowerupsRoutine()
+    {
+        _canAttractPowerups = false;
+        _denialSign.SetActive(true);
+        yield return new WaitForSeconds(8);
+        _canAttractPowerups = true;
+        _denialSign.SetActive(false);
     }
 }
