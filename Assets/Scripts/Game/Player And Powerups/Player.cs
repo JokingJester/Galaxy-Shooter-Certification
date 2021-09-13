@@ -287,6 +287,14 @@ public class Player : MonoBehaviour
         _uiManager.UpdatePlayerAmmo(_currentAmmo);
     }
 
+    public void DepleteAmmo()
+    {
+        _currentAmmo = 0;
+        _uiManager.UpdatePlayerAmmo(_currentAmmo);
+        _totalFuel = -2f;
+        _fuelDepleted = true;
+    }
+
     public void ChainLaserActive()
     {
         _tripleShotActive = false;

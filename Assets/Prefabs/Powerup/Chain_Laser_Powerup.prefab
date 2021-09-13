@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
+  _speedTowardPlayer: 20
   _powerupID: 5
 --- !u!61 &1376150007730140621
 BoxCollider2D:

@@ -7,7 +7,7 @@ public class Powerup : MonoBehaviour
 
     private bool _moveTowardPlayer;
     [SerializeField] private float _speed;
-    [SerializeField] private float _speedTowardPlayer;
+    [SerializeField] private float _speedTowardPlayer = 20;
     [SerializeField] private int _powerupID;
 
     private AudioSource _audioSource;
@@ -36,7 +36,7 @@ public class Powerup : MonoBehaviour
         if (_moveTowardPlayer == false)
             transform.Translate(Vector3.down * _speed * Time.deltaTime);
         else
-            transform.position = Vector2.MoveTowards(transform.position, _player.transform.position, 20 * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, _player.transform.position, _speedTowardPlayer * Time.deltaTime);
 
         if (transform.position.y <= -5.4f)
             Destroy(this.gameObject);
@@ -73,6 +73,9 @@ public class Powerup : MonoBehaviour
                         break;
                     case 5:
                         player.ChainLaserActive();
+                        break;
+                    case 6:
+                        player.DepleteAmmo();
                         break;
                     default:
                         break;

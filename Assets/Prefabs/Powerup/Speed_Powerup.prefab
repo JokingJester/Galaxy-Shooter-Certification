@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
+  _speedTowardPlayer: 20
   _powerupID: 1
 --- !u!95 &5168452556963836493
 Animator:
