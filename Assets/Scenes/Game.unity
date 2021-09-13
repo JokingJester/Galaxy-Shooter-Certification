@@ -1056,7 +1056,7 @@ MonoBehaviour:
   _thrusterSpeed: 9
   _speedBoostSpeed: 12
   _fireRate: 0.5
-  _tripleShotFireRate: 0.4
+  _tripleShotFireRate: 0.35
   _staminaDecreaseRate: 2
   _staminaIncreaseRate: 1
   _totalFuel: 3

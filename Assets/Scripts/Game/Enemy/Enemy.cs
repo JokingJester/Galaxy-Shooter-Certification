@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject _enemyLaserPrefab;
+    [SerializeField] private GameObject _shield;
 
     private Animator _anim;
 
@@ -21,6 +22,7 @@ public class Enemy : MonoBehaviour
 
     private bool _isBeingDestroyed;
     private bool _canFireLasers = true;
+    private bool _shieldActive;
     public bool isTargeted;
     private BoxCollider2D _boxCollider2D;
 
@@ -45,6 +47,13 @@ public class Enemy : MonoBehaviour
         _anim = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
+        
+        int haveShield = Random.Range(1, 3);
+        if(haveShield == 1 && _shieldActive == false)
+        {
+            _shield.SetActive(true);
+            _shieldActive = true;
+        }
     }
     void Update()
     {
@@ -86,20 +95,32 @@ public class Enemy : MonoBehaviour
             Laser laser = other.gameObject.GetComponent<Laser>();
             if (laser != null)
                 laser.DestroyLaser();
-            if(_player != null)
-                _player.AddScore(_addedScore);
-            _anim.SetTrigger("OnEnemyDeath");
-            _boxCollider2D.enabled = false;
-            _speed = 0;
-            _audioSource.Play();
-            _isBeingDestroyed = true;
-            Destroy(this.gameObject, 2.5f);
+
+            if (_shieldActive == true)
+            {
+                StartCoroutine(EnableAsTargetRoutine());
+                _shield.SetActive(false);
+                _shieldActive = false;
+
+            }
+            else
+            {
+                if (_player != null)
+                    _player.AddScore(_addedScore);
+                _anim.SetTrigger("OnEnemyDeath");
+                _boxCollider2D.enabled = false;
+                _speed = 0;
+                _audioSource.Play();
+                _isBeingDestroyed = true;
+                Destroy(this.gameObject, 2.5f);
+            }
         }
 
         if(other.tag == "Player")
         {
             if (_player != null)
                 _player.Damage();
+            _shield.SetActive(false);
             _anim.SetTrigger("OnEnemyDeath");
             _boxCollider2D.enabled = false;
             _speed = 0;
@@ -112,5 +133,11 @@ public class Enemy : MonoBehaviour
     public void StopFiringLasers()
     {
         _canFireLasers = false;
+    }
+
+    private IEnumerator EnableAsTargetRoutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isTargeted = false;
     }
 }
