@@ -49,4 +49,18 @@ public class HomingMissile : MonoBehaviour
             transform.Translate(Vector2.up * movementSpeed * Time.deltaTime);
         }
     }
+
+    private void OnDestroy()
+    {
+        if(target != null)
+        {
+            Enemy targetEnemy = target.GetComponent<Enemy>();
+
+            if (targetEnemy != null)
+            {
+                if (targetEnemy.isTargeted == true && targetEnemy._isBeingDestroyed == false)
+                    targetEnemy.isTargeted = false;
+            }
+        }
+    }
 }

@@ -1032,7 +1032,7 @@ GameObject:
   - component: {fileID: 1187306180}
   - component: {fileID: 1187306181}
   - component: {fileID: 1187306182}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2234,7 +2234,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnRate: 2
-  _enemyPrefab: {fileID: 6930307334510498606, guid: 7e0c49697df3cd84c81d7276a255e894, type: 3}
+  _enemyPrefabs:
+  - {fileID: 6930307334510498606, guid: 7e0c49697df3cd84c81d7276a255e894, type: 3}
+  - {fileID: 1146222060517928011, guid: d90bb12ccff55484ca12b6ad05eb1118, type: 3}
+  - {fileID: 1146222060517928011, guid: d90bb12ccff55484ca12b6ad05eb1118, type: 3}
+  - {fileID: 6930307334510498606, guid: 7e0c49697df3cd84c81d7276a255e894, type: 3}
   _enemyContainer: {fileID: 1302196339}
   _powerups:
   - {fileID: 5351741363837827334, guid: 15b6d10c036dc6c4dbe4d99d6cc6d97d, type: 3}
