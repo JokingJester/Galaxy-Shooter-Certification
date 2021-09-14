@@ -70,10 +70,13 @@ public class Player : MonoBehaviour
     private float _maxFuelAmount;
 
     private int _maxAmmo = 15;
-   [SerializeField] private int _missileAmmo;
+    private int _missileAmmo;
     private int _currentAmmo;
     private int _score;
     private int _shieldHealth;
+    private int _speedCoroutineCount;
+    private int _tripleShotCoroutineCount;
+    private int _chainLaserCoroutineCount;
 
     private UIManager _uiManager;
 
@@ -122,7 +125,7 @@ public class Player : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
-        if(_enableSpeedBoost == true)
+        if (_enableSpeedBoost == true)
         {
             transform.Translate(direction * _speedBoostSpeed * Time.deltaTime);
             _totalFuel = 100;
@@ -144,7 +147,7 @@ public class Player : MonoBehaviour
 
             if (Input.GetKey(KeyCode.LeftShift) && _fuelDepleted == false && isMoving == true)
             {
-                if(_totalFuel > 0f)
+                if (_totalFuel > 0f)
                 {
                     _speed = _thrusterSpeed;
                     _totalFuel -= _staminaDecreaseRate * Time.deltaTime;
@@ -158,7 +161,7 @@ public class Player : MonoBehaviour
             else
             {
                 _speed = _regularSpeed;
-                if(_totalFuel < _maxFuelAmount)
+                if (_totalFuel < _maxFuelAmount)
                 {
                     _totalFuel += _staminaIncreaseRate * Time.deltaTime;
                 }
@@ -175,12 +178,12 @@ public class Player : MonoBehaviour
 
     private void PlayerBounds()
     {
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0),0);
+        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
 
         //teleporting when offscreen
-        if(transform.position.x <= -11.3)
+        if (transform.position.x <= -11.3)
             transform.position = new Vector3(11.2f, transform.position.y, transform.position.z);
-        else if(transform.position.x >= 11.3)
+        else if (transform.position.x >= 11.3)
             transform.position = new Vector3(-11.2f, transform.position.y, transform.position.z);
     }
 
@@ -196,7 +199,7 @@ public class Player : MonoBehaviour
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         else if (_chainLaserActive == true)
             Instantiate(_chainLaserPrefab, transform.position, Quaternion.identity);
-        else if(_missileAmmo >= 1)
+        else if (_missileAmmo >= 1)
         {
             _missileAmmo--;
             Instantiate(_missilePrefab, transform.position, Quaternion.identity);
@@ -215,7 +218,7 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        if(_shieldIsActive == true)
+        if (_shieldIsActive == true)
         {
             _shieldHealth--;
 
@@ -224,7 +227,7 @@ public class Player : MonoBehaviour
             else if (_shieldHealth == 1)
                 _shieldColor.color = new Color(_shieldColor.color.r, _shieldColor.color.g, _shieldColor.color.b, 0.30f);
 
-            if(_shieldHealth < 1)
+            if (_shieldHealth < 1)
             {
                 _shieldIsActive = false;
                 _shieldVisual.SetActive(false);
@@ -233,7 +236,7 @@ public class Player : MonoBehaviour
         }
         _lives--;
 
-        if(_lives == 2)
+        if (_lives == 2)
         {
             int randomThruster = UnityEngine.Random.Range(0, 2);
             if (randomThruster == 0)
@@ -241,7 +244,7 @@ public class Player : MonoBehaviour
             else if (randomThruster == 2 || randomThruster == 1)
                 _rightEngine.SetActive(true);
         }
-        else if(_lives == 1)
+        else if (_lives == 1)
         {
             if (_leftEngine.activeInHierarchy == false)
                 _leftEngine.SetActive(true);
@@ -330,7 +333,7 @@ public class Player : MonoBehaviour
     private IEnumerator LaserCooldownRoutine()
     {
         _canFireLaser = false;
-        if(_tripleShotActive == true)
+        if (_tripleShotActive == true)
             yield return _tripleShotCooldownTime;
         else
             yield return _laserCooldownTime;
@@ -339,19 +342,41 @@ public class Player : MonoBehaviour
 
     private IEnumerator TripleShotPowerDownRoutine()
     {
+        _tripleShotCoroutineCount++;
         yield return _tripleShotPowerDownTime;
+        if (_tripleShotCoroutineCount > 1)
+        {
+            _tripleShotCoroutineCount--;
+            yield break;
+        }
         _tripleShotActive = false;
+        _tripleShotCoroutineCount--;
     }
 
     private IEnumerator SpeedBoostPowerDownRoutine()
     {
+        _speedCoroutineCount++;
         yield return _tripleShotPowerDownTime;
+        if (_speedCoroutineCount > 1)
+        {
+            _speedCoroutineCount--;
+            yield break;
+        }
+
         _enableSpeedBoost = false;
+        _speedCoroutineCount--;
     }
 
     private IEnumerator ChainLaserPowerDownRoutine()
     {
+        _chainLaserCoroutineCount++;
         yield return _tripleShotPowerDownTime;
+        if (_chainLaserCoroutineCount > 1)
+        {
+            _chainLaserCoroutineCount--;
+            yield break;
+        }
+        _chainLaserCoroutineCount--;
         _chainLaserActive = false;
     }
 

@@ -1074,7 +1074,6 @@ MonoBehaviour:
   _explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _cameraShake: {fileID: 963194230}
   _denialSign: {fileID: 1266729137}
-  _missileAmmo: 0
 --- !u!212 &1187306178
 SpriteRenderer:
   m_ObjectHideFlags: 0
