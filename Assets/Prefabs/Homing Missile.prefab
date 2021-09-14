@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03f0e41f3fb833a43a27b455878f8e3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angleChangingSpeed: 400
-  movementSpeed: 15
+  angleChangingSpeed: 450
+  movementSpeed: 18
   rigidBody: {fileID: 7070180784204632721}
 --- !u!50 &7070180784204632721
 Rigidbody2D:

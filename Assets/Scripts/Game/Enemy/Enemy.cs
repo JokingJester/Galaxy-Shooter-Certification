@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private enum EnemyType {Normal, Aggressive }
     [SerializeField] private EnemyType _enemyType;
     [SerializeField] private LayerMask _playerLayerMask;
+    [SerializeField] private LayerMask _powerupLayerMask;
 
     [Header("Audio")]
     [SerializeField] private AudioClip _explosionSound;
@@ -26,11 +27,13 @@ public class Enemy : MonoBehaviour
 
     private AudioSource _audioSource;
 
-    [HideInInspector] public bool _isBeingDestroyed;
+
     private bool _canFireLasers = true;
     private bool _shieldActive;
-    [HideInInspector]public bool isTargeted;
+    private bool _canShootPowerup = true;
     private BoxCollider2D _boxCollider2D;
+    [HideInInspector] public bool _isBeingDestroyed;
+    [HideInInspector] public bool isTargeted;
 
     private float _canFire = -1;
     private float _fireRate;
@@ -61,6 +64,11 @@ public class Enemy : MonoBehaviour
             _shield.SetActive(true);
             _shieldActive = true;
         }
+
+        if(_enemyType == EnemyType.Aggressive)
+        {
+            _canFire = 10000;
+        }
         _speed = _normalSpeed;
     }
     void Update()
@@ -74,10 +82,12 @@ public class Enemy : MonoBehaviour
             case EnemyType.Aggressive:
                 Movement();
                 DetectPlayer();
+                FireLasers();
                 //Detect player 
                 break;
 
         }
+        DetectPowerup();
     }
 
     private void FireLasers()
@@ -105,6 +115,7 @@ public class Enemy : MonoBehaviour
         if (transform.position.y <= -5.4f)
         {
             transform.position = new Vector3(Random.Range(-8, 8), 8, transform.position.z);
+            _canShootPowerup = true;
 
             if(_enemyType == EnemyType.Aggressive)
             {
@@ -121,6 +132,16 @@ public class Enemy : MonoBehaviour
         {
             _speed = _ramSpeed;
             _thruster.SetActive(true);
+        }
+    }
+
+    private void DetectPowerup()
+    {
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity, _powerupLayerMask);
+        if(hitInfo == true && _canShootPowerup == true)
+        {
+            _canShootPowerup = false;
+            _canFire = -1;
         }
     }
 

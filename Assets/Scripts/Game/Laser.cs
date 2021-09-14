@@ -79,6 +79,11 @@ public class Laser : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+
+        if(collision.tag == "Powerup" && _isEnemyLaser == true)
+        {
+            Destroy(collision.gameObject);
+        }
     }
 
     public void DestroyLaser()
