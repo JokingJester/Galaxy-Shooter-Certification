@@ -36,7 +36,12 @@ public class Powerup : MonoBehaviour
         if (_moveTowardPlayer == false)
             transform.Translate(Vector3.down * _speed * Time.deltaTime);
         else
-            transform.position = Vector2.MoveTowards(transform.position, _player.transform.position, _speedTowardPlayer * Time.deltaTime);
+        {
+            if (_player != null)
+                transform.position = Vector2.MoveTowards(transform.position, _player.transform.position, _speedTowardPlayer * Time.deltaTime);
+            else
+                _moveTowardPlayer = false;
+        }
 
         if (transform.position.y <= -5.4f)
             Destroy(this.gameObject);
@@ -75,7 +80,10 @@ public class Powerup : MonoBehaviour
                         player.ChainLaserActive();
                         break;
                     case 6:
-                        player.DepleteAmmo();
+                        player.DepleteAmmoAndStamina();
+                        break;
+                    case 7:
+                        player.AddMissileAmmo();
                         break;
                     default:
                         break;

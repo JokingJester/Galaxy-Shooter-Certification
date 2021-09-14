@@ -40,9 +40,11 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private GameObject _chainLaserPrefab;
     [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private GameObject _missilePrefab;
 
     [Header("Audio")]
     [SerializeField] private AudioClip _laserSound;
+    [SerializeField] private AudioClip _missileSound;
     [SerializeField] private AudioClip _explosionSound;
 
     [Header("Camera")]
@@ -62,11 +64,13 @@ public class Player : MonoBehaviour
     private bool _chainLaserActive;
     private bool _shieldIsActive;
     private bool _fuelDepleted;
+    private bool _playLaserSound;
 
     private float _speed;
     private float _maxFuelAmount;
 
     private int _maxAmmo = 15;
+   [SerializeField] private int _missileAmmo;
     private int _currentAmmo;
     private int _score;
     private int _shieldHealth;
@@ -97,6 +101,7 @@ public class Player : MonoBehaviour
         PlayerBounds();
         if (Input.GetKeyDown(KeyCode.Space) && _canFireLaser == true)
         {
+            _playLaserSound = true;
             FireLaser();
         }
 
@@ -181,7 +186,7 @@ public class Player : MonoBehaviour
 
     private void FireLaser()
     {
-        if (_tripleShotActive == false && _chainLaserActive == false &&  _currentAmmo >= 1)
+        if (_tripleShotActive == false && _chainLaserActive == false && _missileAmmo == 0 && _currentAmmo >= 1)
         {
             _currentAmmo--;
             _uiManager.UpdatePlayerAmmo(_currentAmmo);
@@ -191,11 +196,21 @@ public class Player : MonoBehaviour
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         else if (_chainLaserActive == true)
             Instantiate(_chainLaserPrefab, transform.position, Quaternion.identity);
+        else if(_missileAmmo >= 1)
+        {
+            _missileAmmo--;
+            Instantiate(_missilePrefab, transform.position, Quaternion.identity);
+            _playLaserSound = false;
+        }
         else
             return;
 
         StartCoroutine(LaserCooldownRoutine());
-        _audioSource.PlayOneShot(_laserSound);
+
+        if (_playLaserSound == true)
+            _audioSource.PlayOneShot(_laserSound);
+        else
+            _audioSource.PlayOneShot(_missileSound);
     }
 
     public void Damage()
@@ -287,12 +302,17 @@ public class Player : MonoBehaviour
         _uiManager.UpdatePlayerAmmo(_currentAmmo);
     }
 
-    public void DepleteAmmo()
+    public void DepleteAmmoAndStamina()
     {
         _currentAmmo = 0;
         _uiManager.UpdatePlayerAmmo(_currentAmmo);
         _totalFuel = -2f;
         _fuelDepleted = true;
+    }
+
+    public void AddMissileAmmo()
+    {
+        _missileAmmo += 4;
     }
 
     public void ChainLaserActive()

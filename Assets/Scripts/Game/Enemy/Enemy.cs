@@ -128,6 +128,20 @@ public class Enemy : MonoBehaviour
             _isBeingDestroyed = true;
             Destroy(this.gameObject, 2.5f);
         }
+
+        if(other.tag == "Missile")
+        {
+            _shield.SetActive(false);
+            if (_player != null)
+                _player.AddScore(_addedScore);
+            _anim.SetTrigger("OnEnemyDeath");
+            _boxCollider2D.enabled = false;
+            _speed = 0;
+            _audioSource.Play();
+            _isBeingDestroyed = true;
+            Destroy(other.gameObject);
+            Destroy(this.gameObject, 2.5f);
+        }
     }
 
     public void StopFiringLasers()
