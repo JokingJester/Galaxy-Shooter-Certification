@@ -41,6 +41,8 @@ public class Enemy : MonoBehaviour
 
     private Player _player;
 
+    private RaycastHit2D _powerupInFrontOfShip;
+
     private void OnEnable()
     {
         GameManager.onPlayerDeath += StopFiringLasers;
@@ -73,6 +75,7 @@ public class Enemy : MonoBehaviour
     }
     void Update()
     {
+        DetectPowerup();
         switch (_enemyType)
         {
             case EnemyType.Normal:
@@ -87,13 +90,17 @@ public class Enemy : MonoBehaviour
                 break;
 
         }
-        DetectPowerup();
     }
 
     private void FireLasers()
     {
         if (Time.time > _canFire && _isBeingDestroyed == false && _canFireLasers == true)
         {
+            if(_powerupInFrontOfShip == true && _powerupInFrontOfShip.transform.position.y > 2)
+            {
+                return;
+            }
+
             GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
             Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
 
@@ -137,8 +144,8 @@ public class Enemy : MonoBehaviour
 
     private void DetectPowerup()
     {
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity, _powerupLayerMask);
-        if(hitInfo == true && _canShootPowerup == true)
+        _powerupInFrontOfShip = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity, _powerupLayerMask);
+        if(_powerupInFrontOfShip == true && _canShootPowerup == true)
         {
             _canShootPowerup = false;
             _canFire = -1;
