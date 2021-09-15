@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AggroEnemy : Enemy
+public class DodgerEnemy : Enemy
 {
-    [Header("Aggro Enemy Settings")]
-    [SerializeField] private GameObject _thruster;
-    [SerializeField] private float _ramSpeed;
+    [SerializeField] private float _dodgeSpeed;
 
-    private RaycastHit2D _playerInFrontOfEnemy;
+    private bool _dodgeTheLaser;
+    private bool _moveLeft;
+    private float _newXPos;
 
     protected override void Init()
     {
@@ -16,35 +16,66 @@ public class AggroEnemy : Enemy
         _audioSource = GetComponent<AudioSource>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
         _speed = _normalSpeed;
-        _canFire = 10000;
     }
 
     protected override void Update()
     {
         base.Update();
-        DetectPlayer();
     }
 
-    protected override void FireLasers()
+    protected override void Movement()
     {
-        if(_powerupInFrontOfShip == true)
-            base.FireLasers();
+        if(_dodgeTheLaser == true)
+        {
+            //if move left is true && transform pos .x is greater than new pos
+            //translate left
+            if (_moveLeft == true && transform.position.x > _newXPos)
+                transform.Translate(Vector2.left * _dodgeSpeed * Time.deltaTime);
+            else if (_moveLeft == false && transform.position.x < _newXPos)
+                transform.Translate(Vector2.right * _dodgeSpeed * Time.deltaTime);
+            else
+                _dodgeTheLaser = false;
+        }
+        else
+        {
+            base.Movement();
+        }
     }
 
-    private void DetectPlayer()
+    public void DodgeLaser()
     {
-        if (transform.position.y <= -5.3f)
+        int randomDodgeDirection = Random.Range(1, 2);
+
+        if(randomDodgeDirection == 1)
         {
-            _speed = _normalSpeed;
-            _thruster.SetActive(false);
+            if(transform.position.x - 2 >= -8)
+            {
+                _moveLeft = true;
+                _newXPos = transform.position.x - 2;
+            }
+            else
+            {
+                _moveLeft = false;
+                _newXPos = transform.position.x + 2;
+            }
+
         }
 
-        _playerInFrontOfEnemy = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity, _playerLayerMask);
-        if (_playerInFrontOfEnemy == true && _isBeingDestroyed == false)
+
+        if(randomDodgeDirection == 2)
         {
-            _speed = _ramSpeed;
-            _thruster.SetActive(true);
+            if(transform.position.x + 2 <= 8)
+            {
+                _moveLeft = false;
+                _newXPos = transform.position.x + 2;
+            }
+            else
+            {
+                _moveLeft = true;
+                _newXPos = transform.position.x - 2;
+            }
         }
+        _dodgeTheLaser = true;
     }
 
     protected override void OnTriggerEnter2D(Collider2D other)
@@ -52,6 +83,7 @@ public class AggroEnemy : Enemy
         if (other.tag == "Laser")
         {
             isTargeted = true;
+            Destroy(transform.GetChild(0).gameObject);
             Laser laser = other.gameObject.GetComponent<Laser>();
             if (laser != null)
                 laser.DestroyLaser();
@@ -63,13 +95,13 @@ public class AggroEnemy : Enemy
             _speed = 0;
             _audioSource.Play();
             _isBeingDestroyed = true;
-            _thruster.SetActive(false);
             Destroy(this.gameObject, 2.5f);
         }
 
         if (other.tag == "Player")
         {
             isTargeted = true;
+            Destroy(transform.GetChild(0).gameObject);
             if (_player != null)
                 _player.Damage();
             _anim.SetTrigger("OnEnemyDeath");
@@ -77,13 +109,13 @@ public class AggroEnemy : Enemy
             _speed = 0;
             _audioSource.Play();
             _isBeingDestroyed = true;
-            _thruster.SetActive(false);
             Destroy(this.gameObject, 2.5f);
         }
 
         if (other.tag == "Missile")
         {
             isTargeted = true;
+            Destroy(transform.GetChild(0).gameObject);
             if (_player != null)
                 _player.AddScore(_addedScore);
             _anim.SetTrigger("OnEnemyDeath");
@@ -91,7 +123,6 @@ public class AggroEnemy : Enemy
             _speed = 0;
             _audioSource.Play();
             _isBeingDestroyed = true;
-            _thruster.SetActive(false);
             Destroy(other.gameObject);
             Destroy(this.gameObject, 2.5f);
         }

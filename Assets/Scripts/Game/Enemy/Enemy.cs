@@ -154,6 +154,7 @@ public class Enemy : MonoBehaviour
 
         if(other.tag == "Player")
         {
+            isTargeted = true;
             if (_player != null)
                 _player.Damage();
             _shield.SetActive(false);
@@ -167,6 +168,7 @@ public class Enemy : MonoBehaviour
 
         if(other.tag == "Missile")
         {
+            isTargeted = true;
             _shield.SetActive(false);
             if (_player != null)
                 _player.AddScore(_addedScore);

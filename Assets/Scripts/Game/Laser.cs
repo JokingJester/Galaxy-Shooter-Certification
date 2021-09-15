@@ -6,12 +6,12 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     [SerializeField] private float _speed;
-
     [SerializeField] private bool _isChainLaser;
 
-    private bool _isEnemyLaser;
     private int _shipsDestroyed;
     private Transform _enemyTarget;
+
+    [HideInInspector] public bool _isEnemyLaser;
 
     void Update()
     {
