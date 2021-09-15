@@ -10,25 +10,10 @@ public class DodgerEnemy : Enemy
     private bool _moveLeft;
     private float _newXPos;
 
-    protected override void Init()
-    {
-        _anim = GetComponent<Animator>();
-        _audioSource = GetComponent<AudioSource>();
-        _boxCollider2D = GetComponent<BoxCollider2D>();
-        _speed = _normalSpeed;
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     protected override void Movement()
     {
         if(_dodgeTheLaser == true)
         {
-            //if move left is true && transform pos .x is greater than new pos
-            //translate left
             if (_moveLeft == true && transform.position.x > _newXPos)
                 transform.Translate(Vector2.left * _dodgeSpeed * Time.deltaTime);
             else if (_moveLeft == false && transform.position.x < _newXPos)
