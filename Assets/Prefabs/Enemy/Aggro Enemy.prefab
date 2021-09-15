@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 6876090446075814765}
   - component: {fileID: 7705916307409057943}
   - component: {fileID: 720172084691717290}
-  - component: {fileID: 6088453941662127852}
+  - component: {fileID: 302693084345151869}
   - component: {fileID: 8242105980165558883}
   - component: {fileID: 9173314843345817515}
   m_Layer: 0
@@ -240,7 +240,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6088453941662127852
+--- !u!114 &302693084345151869
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,13 +249,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1146222060517928011}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e11015147124374198cd5a3dc5f1341, type: 3}
+  m_Script: {fileID: 11500000, guid: 95b2f3b473695ed46a6306314209d0d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _normalSpeed: 4
-  _ramSpeed: 12
   _addedScore: 10
-  _enemyType: 1
   _playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -265,10 +263,11 @@ MonoBehaviour:
   _explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _laserSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _enemyLaserPrefab: {fileID: 752044882769828792, guid: a410f9ddbc77f82489df361246185ae2, type: 3}
-  _shield: {fileID: 8053939343814227046}
-  _thruster: {fileID: 1125502301058763536}
+  _shield: {fileID: 0}
   _isBeingDestroyed: 0
   isTargeted: 0
+  _thruster: {fileID: 1125502301058763536}
+  _ramSpeed: 12
 --- !u!95 &8242105980165558883
 Animator:
   serializedVersion: 3

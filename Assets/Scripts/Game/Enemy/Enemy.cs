@@ -4,95 +4,82 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-
     [Header("Enemy Settings")]
-    [SerializeField] private float _normalSpeed = 4;
-    [SerializeField] private float _ramSpeed = 12;
-    [SerializeField] private int _addedScore = 10;
-    [SerializeField] private enum EnemyType {Normal, Aggressive }
-    [SerializeField] private EnemyType _enemyType;
-    [SerializeField] private LayerMask _playerLayerMask;
-    [SerializeField] private LayerMask _powerupLayerMask;
+    [SerializeField] protected float _normalSpeed = 4;
+    [SerializeField] protected int _addedScore = 10;
+
+    [SerializeField] protected LayerMask _playerLayerMask;
+    [SerializeField] protected LayerMask _powerupLayerMask;
 
     [Header("Audio")]
-    [SerializeField] private AudioClip _explosionSound;
-    [SerializeField] private AudioClip _laserSound;
+    [SerializeField] protected AudioClip _explosionSound;
+    [SerializeField] protected AudioClip _laserSound;
 
     [Header("Prefabs")]
-    [SerializeField] private GameObject _enemyLaserPrefab;
+    [SerializeField] protected GameObject _enemyLaserPrefab;
     [SerializeField] private GameObject _shield;
-    [SerializeField] private GameObject _thruster;
 
-    private Animator _anim;
+    protected Animator _anim;
 
-    private AudioSource _audioSource;
+    protected AudioSource _audioSource;
 
 
-    private bool _canFireLasers = true;
+    protected bool _canFireLasers = true;
     private bool _shieldActive;
-    private bool _canShootPowerup = true;
-    private BoxCollider2D _boxCollider2D;
+    protected bool _canShootPowerup = true;
+
+    protected BoxCollider2D _boxCollider2D;
+
     [HideInInspector] public bool _isBeingDestroyed;
     [HideInInspector] public bool isTargeted;
 
-    private float _canFire = -1;
-    private float _fireRate;
-    private float _speed;
+    protected float _canFire = -1;
+    protected float _fireRate;
+    protected float _speed;
 
-    private Player _player;
+    protected Player _player;
 
-    private RaycastHit2D _powerupInFrontOfShip;
+    protected RaycastHit2D _powerupInFrontOfShip;
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         GameManager.onPlayerDeath += StopFiringLasers;
         _player = GameObject.Find("Player").GetComponent<Player>();
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         GameManager.onPlayerDeath -= StopFiringLasers;
     }
 
-    private void Start()
+    protected virtual void Start()
+    {
+        Init();
+    }
+
+    protected virtual void Init()
     {
         _anim = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
-        
+
         int haveShield = Random.Range(1, 3);
-        if(haveShield == 1 && _shieldActive == false && _enemyType == EnemyType.Normal)
+        if (haveShield == 1 && _shieldActive == false)
         {
             _shield.SetActive(true);
             _shieldActive = true;
         }
-
-        if(_enemyType == EnemyType.Aggressive)
-        {
-            _canFire = 10000;
-        }
         _speed = _normalSpeed;
     }
-    void Update()
+
+  protected virtual void Update()
     {
         DetectPowerup();
-        switch (_enemyType)
-        {
-            case EnemyType.Normal:
-                Movement();
-                FireLasers();
-                break;
-            case EnemyType.Aggressive:
-                Movement();
-                DetectPlayer();
-                FireLasers();
-                //Detect player 
-                break;
-
-        }
+        Movement();
+        FireLasers();
     }
 
-    private void FireLasers()
+    protected virtual void FireLasers()
     {
         if (Time.time > _canFire && _isBeingDestroyed == false && _canFireLasers == true)
         {
@@ -116,33 +103,17 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Movement()
+    protected virtual void Movement()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
         if (transform.position.y <= -5.4f)
         {
             transform.position = new Vector3(Random.Range(-8, 8), 8, transform.position.z);
             _canShootPowerup = true;
-
-            if(_enemyType == EnemyType.Aggressive)
-            {
-                _speed = _normalSpeed;
-                _thruster.SetActive(false);
-            }
         }
     }
 
-    private void DetectPlayer()
-    {
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity, _playerLayerMask);
-        if(hitInfo == true && _isBeingDestroyed == false)
-        {
-            _speed = _ramSpeed;
-            _thruster.SetActive(true);
-        }
-    }
-
-    private void DetectPowerup()
+    protected void DetectPowerup()
     {
         _powerupInFrontOfShip = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity, _powerupLayerMask);
         if(_powerupInFrontOfShip == true && _canShootPowerup == true)
@@ -152,7 +123,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag == "Laser")
         {
@@ -172,8 +143,6 @@ public class Enemy : MonoBehaviour
             {
                 if (_player != null)
                     _player.AddScore(_addedScore);
-                if(_enemyType == EnemyType.Aggressive)
-                    _thruster.SetActive(false);
                 _anim.SetTrigger("OnEnemyDeath");
                 _boxCollider2D.enabled = false;
                 _speed = 0;
@@ -188,8 +157,6 @@ public class Enemy : MonoBehaviour
             if (_player != null)
                 _player.Damage();
             _shield.SetActive(false);
-            if (_enemyType == EnemyType.Aggressive)
-                _thruster.SetActive(false);
             _anim.SetTrigger("OnEnemyDeath");
             _boxCollider2D.enabled = false;
             _speed = 0;
@@ -201,8 +168,6 @@ public class Enemy : MonoBehaviour
         if(other.tag == "Missile")
         {
             _shield.SetActive(false);
-            if (_enemyType == EnemyType.Aggressive)
-                _thruster.SetActive(false);
             if (_player != null)
                 _player.AddScore(_addedScore);
             _anim.SetTrigger("OnEnemyDeath");
@@ -220,7 +185,7 @@ public class Enemy : MonoBehaviour
         _canFireLasers = false;
     }
 
-    private IEnumerator EnableAsTargetRoutine()
+    protected IEnumerator EnableAsTargetRoutine()
     {
         yield return new WaitForSeconds(0.5f);
         isTargeted = false;
