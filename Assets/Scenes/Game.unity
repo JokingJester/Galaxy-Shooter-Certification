@@ -2237,8 +2237,10 @@ MonoBehaviour:
   _enemyPrefabs:
   - {fileID: 6930307334510498606, guid: 7e0c49697df3cd84c81d7276a255e894, type: 3}
   - {fileID: 3694506011890328057, guid: e7cc8c460f237554abe4ba95eb469b11, type: 3}
-  - {fileID: 8033565904475090844, guid: 9a32ad9a0d3d1744dbe241ef247fa3b7, type: 3}
   - {fileID: 1146222060517928011, guid: d90bb12ccff55484ca12b6ad05eb1118, type: 3}
+  - {fileID: 6068932741283690442, guid: 4fb15bc9688188f45b9ada982f687064, type: 3}
+  - {fileID: 8033565904475090844, guid: 9a32ad9a0d3d1744dbe241ef247fa3b7, type: 3}
+  - {fileID: 6930307334510498606, guid: 7e0c49697df3cd84c81d7276a255e894, type: 3}
   - {fileID: 6930307334510498606, guid: 7e0c49697df3cd84c81d7276a255e894, type: 3}
   _enemyContainer: {fileID: 1302196339}
   _powerups:

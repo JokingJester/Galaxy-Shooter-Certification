@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour
                 return;
             }
 
-            GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
+            GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, transform.rotation);
             Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
 
             foreach (var laser in lasers)

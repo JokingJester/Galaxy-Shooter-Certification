@@ -18,6 +18,11 @@ public class ShieldEnemy : Enemy
     private IEnumerator EnableAsTargetRoutine()
     {
         yield return new WaitForSeconds(0.5f);
+        if(_isBeingDestroyed == true)
+        {
+            isTargeted = true;
+            yield break;
+        }
         isTargeted = false;
     }
 
