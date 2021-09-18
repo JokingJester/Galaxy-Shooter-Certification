@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioClip _laserSound;
+    [SerializeField] private AudioClip _laserTripleShotSound;
+    [SerializeField] private AudioClip _chainLaserSound;
     [SerializeField] private AudioClip _missileSound;
     [SerializeField] private AudioClip _explosionSound;
 
@@ -64,7 +66,6 @@ public class Player : MonoBehaviour
     private bool _chainLaserActive;
     private bool _shieldIsActive;
     private bool _fuelDepleted;
-    private bool _playLaserSound;
 
     private float _speed;
     private float _maxFuelAmount;
@@ -104,7 +105,6 @@ public class Player : MonoBehaviour
         PlayerBounds();
         if (Input.GetKeyDown(KeyCode.Space) && _canFireLaser == true)
         {
-            _playLaserSound = true;
             FireLaser();
         }
 
@@ -194,26 +194,29 @@ public class Player : MonoBehaviour
             _currentAmmo--;
             _uiManager.UpdatePlayerAmmo(_currentAmmo);
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+            _audioSource.PlayOneShot(_laserSound);
         }
         else if (_tripleShotActive == true)
+        {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+            _audioSource.PlayOneShot(_laserTripleShotSound);
+
+        }
         else if (_chainLaserActive == true)
+        {
             Instantiate(_chainLaserPrefab, transform.position, Quaternion.identity);
+            _audioSource.PlayOneShot(_chainLaserSound);
+        }
         else if (_missileAmmo >= 1)
         {
             _missileAmmo--;
             Instantiate(_missilePrefab, transform.position, Quaternion.identity);
-            _playLaserSound = false;
+            _audioSource.PlayOneShot(_missileSound);
         }
         else
             return;
 
         StartCoroutine(LaserCooldownRoutine());
-
-        if (_playLaserSound == true)
-            _audioSource.PlayOneShot(_laserSound);
-        else
-            _audioSource.PlayOneShot(_missileSound);
     }
 
     public void Damage()

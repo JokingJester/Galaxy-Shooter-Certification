@@ -1070,6 +1070,8 @@ MonoBehaviour:
   _explosionPrefab: {fileID: 6468185968322470983, guid: 5484b50aad9a8104e95e380264a5b832, type: 3}
   _missilePrefab: {fileID: 7070180784204632720, guid: 449ce8c171dba0f458424ecc9bb34901, type: 3}
   _laserSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _laserTripleShotSound: {fileID: 8300000, guid: a95f1d7c2d0fcb24e8b05510e59e57f8, type: 3}
+  _chainLaserSound: {fileID: 8300000, guid: b99b2079f4ed0214b879e9e815bca95f, type: 3}
   _missileSound: {fileID: 8300000, guid: 066c5005e060365468aba2c25233e285, type: 3}
   _explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _cameraShake: {fileID: 963194230}
