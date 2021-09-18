@@ -1056,7 +1056,7 @@ MonoBehaviour:
   _thrusterSpeed: 9
   _speedBoostSpeed: 12
   _fireRate: 0.5
-  _tripleShotFireRate: 0.35
+  _tripleShotFireRate: 0.25
   _staminaDecreaseRate: 2
   _staminaIncreaseRate: 1
   _totalFuel: 3
@@ -2240,6 +2240,7 @@ MonoBehaviour:
   - {fileID: 1146222060517928011, guid: d90bb12ccff55484ca12b6ad05eb1118, type: 3}
   - {fileID: 6068932741283690442, guid: 4fb15bc9688188f45b9ada982f687064, type: 3}
   - {fileID: 8033565904475090844, guid: 9a32ad9a0d3d1744dbe241ef247fa3b7, type: 3}
+  - {fileID: 285899483150302447, guid: 7be2ce03e1195764984f09e95054c505, type: 3}
   - {fileID: 6930307334510498606, guid: 7e0c49697df3cd84c81d7276a255e894, type: 3}
   - {fileID: 6930307334510498606, guid: 7e0c49697df3cd84c81d7276a255e894, type: 3}
   _enemyContainer: {fileID: 1302196339}

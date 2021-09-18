@@ -57,6 +57,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7518740195569841670, guid: 5142a597534155d4e9478100b3d12221, type: 3}
+      propertyPath: m_Color.b
+      value: 0.66086864
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518740195569841670, guid: 5142a597534155d4e9478100b3d12221, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518740195569841670, guid: 5142a597534155d4e9478100b3d12221, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518740195569841672, guid: 5142a597534155d4e9478100b3d12221, type: 3}
+      propertyPath: _speed
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 7518740195569841673, guid: 5142a597534155d4e9478100b3d12221, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -119,6 +135,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7518740195569841670, guid: 5142a597534155d4e9478100b3d12221, type: 3}
+      propertyPath: m_Color.b
+      value: 0.66086864
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518740195569841670, guid: 5142a597534155d4e9478100b3d12221, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518740195569841670, guid: 5142a597534155d4e9478100b3d12221, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518740195569841672, guid: 5142a597534155d4e9478100b3d12221, type: 3}
+      propertyPath: _speed
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 7518740195569841673, guid: 5142a597534155d4e9478100b3d12221, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -180,6 +212,22 @@ PrefabInstance:
     - target: {fileID: 7518740195569841668, guid: 5142a597534155d4e9478100b3d12221, type: 3}
       propertyPath: m_Name
       value: Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518740195569841670, guid: 5142a597534155d4e9478100b3d12221, type: 3}
+      propertyPath: m_Color.b
+      value: 0.66086864
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518740195569841670, guid: 5142a597534155d4e9478100b3d12221, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518740195569841670, guid: 5142a597534155d4e9478100b3d12221, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518740195569841672, guid: 5142a597534155d4e9478100b3d12221, type: 3}
+      propertyPath: _speed
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7518740195569841673, guid: 5142a597534155d4e9478100b3d12221, type: 3}
       propertyPath: m_RootOrder

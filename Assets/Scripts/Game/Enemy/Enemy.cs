@@ -8,7 +8,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float _normalSpeed = 4;
     [SerializeField] protected int _addedScore = 10;
 
-    [SerializeField] protected LayerMask _playerLayerMask;
     [SerializeField] protected LayerMask _powerupLayerMask;
 
     [Header("Audio")]
@@ -21,7 +20,6 @@ public class Enemy : MonoBehaviour
     protected Animator _anim;
 
     protected AudioSource _audioSource;
-
 
     protected bool _canFireLasers = true;
     protected bool _canShootPowerup = true;
@@ -73,7 +71,7 @@ public class Enemy : MonoBehaviour
         pos = transform.position;
         axis = transform.right;
         int movementOption = Random.Range(1, 3);
-        if (movementOption == 2)
+        if (movementOption == 1)
             _canZigZag = true;
     }
 
@@ -140,6 +138,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void StopFiringLasers()
+    {
+        _canFireLasers = false;
+    }
+
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag == "Laser")
@@ -188,10 +191,5 @@ public class Enemy : MonoBehaviour
             Destroy(other.gameObject);
             Destroy(this.gameObject, 2.5f);
         }
-    }
-
-    public void StopFiringLasers()
-    {
-        _canFireLasers = false;
     }
 }

@@ -5,18 +5,19 @@ using UnityEngine;
 public class AggroEnemy : Enemy
 {
     [Header("Aggro Enemy Settings")]
+    [SerializeField] private LayerMask _playerLayerMask;
     [SerializeField] private GameObject _thruster;
     [SerializeField] private float _ramSpeed;
 
+    private bool _hasZigZagMovement;
     private RaycastHit2D _playerInFrontOfEnemy;
 
     protected override void Init()
     {
-        _anim = GetComponent<Animator>();
-        _audioSource = GetComponent<AudioSource>();
-        _boxCollider2D = GetComponent<BoxCollider2D>();
-        _speed = _normalSpeed;
+        base.Init();
         _canFire = 10000;
+        if (_canZigZag == true)
+            _hasZigZagMovement = true;
     }
 
     protected override void Update()
@@ -35,13 +36,17 @@ public class AggroEnemy : Enemy
     {
         if (transform.position.y <= -5.3f)
         {
+            if (_hasZigZagMovement == true)
+                _canZigZag = true;
             _speed = _normalSpeed;
             _thruster.SetActive(false);
+            pos = transform.position;
         }
 
         _playerInFrontOfEnemy = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity, _playerLayerMask);
         if (_playerInFrontOfEnemy == true && _isBeingDestroyed == false)
         {
+            _canZigZag = false;
             _speed = _ramSpeed;
             _thruster.SetActive(true);
         }
