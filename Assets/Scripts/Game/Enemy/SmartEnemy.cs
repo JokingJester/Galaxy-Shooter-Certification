@@ -101,6 +101,7 @@ public class SmartEnemy : Enemy
                 _player.AddScore(_addedScore);
             _anim.SetTrigger("OnEnemyDeath");
             _boxCollider2D.enabled = false;
+            _canZigZag = false;
             _speed = 0;
             _audioSource.Play();
             _isBeingDestroyed = true;
@@ -115,6 +116,7 @@ public class SmartEnemy : Enemy
                 _player.Damage();
             _anim.SetTrigger("OnEnemyDeath");
             _boxCollider2D.enabled = false;
+            _canZigZag = false;
             _speed = 0;
             _audioSource.Play();
             _isBeingDestroyed = true;
@@ -129,6 +131,7 @@ public class SmartEnemy : Enemy
                 _player.AddScore(_addedScore);
             _anim.SetTrigger("OnEnemyDeath");
             _boxCollider2D.enabled = false;
+            _canZigZag = false;
             _speed = 0;
             _audioSource.Play();
             _isBeingDestroyed = true;

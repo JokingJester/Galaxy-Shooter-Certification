@@ -274,6 +274,8 @@ MonoBehaviour:
   _enemyLaserPrefab: {fileID: 752044882769828792, guid: a410f9ddbc77f82489df361246185ae2, type: 3}
   _isBeingDestroyed: 0
   isTargeted: 0
+  frequency: 10
+  magnitude: 1.5
   _dodgeSpeed: 10
 --- !u!95 &1366016737264947636
 Animator:

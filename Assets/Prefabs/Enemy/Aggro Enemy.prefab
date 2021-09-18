@@ -263,9 +263,10 @@ MonoBehaviour:
   _explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _laserSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _enemyLaserPrefab: {fileID: 752044882769828792, guid: a410f9ddbc77f82489df361246185ae2, type: 3}
-  _shield: {fileID: 0}
   _isBeingDestroyed: 0
   isTargeted: 0
+  frequency: 10
+  magnitude: 1.5
   _thruster: {fileID: 1125502301058763536}
   _ramSpeed: 12
 --- !u!95 &8242105980165558883

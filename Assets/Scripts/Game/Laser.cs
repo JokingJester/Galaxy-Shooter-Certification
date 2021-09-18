@@ -82,6 +82,12 @@ public class Laser : MonoBehaviour
 
         if(collision.tag == "Powerup" && _isEnemyLaser == true)
         {
+            Powerup powerup = collision.gameObject.GetComponent<Powerup>();
+            if(powerup != null)
+            {
+                if (powerup.invincible == true)
+                    return;
+            }
             Destroy(collision.gameObject);
             Destroy(this.gameObject);
         }

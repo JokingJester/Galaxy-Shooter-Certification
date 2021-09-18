@@ -252,9 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _normalSpeed: 4
-  _ramSpeed: 10
   _addedScore: 10
-  _enemyType: 0
   _playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -264,10 +262,11 @@ MonoBehaviour:
   _explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _laserSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _enemyLaserPrefab: {fileID: 752044882769828792, guid: a410f9ddbc77f82489df361246185ae2, type: 3}
-  _shield: {fileID: 700287747}
-  _thruster: {fileID: 0}
+  _canZigZag: 1
   _isBeingDestroyed: 0
   isTargeted: 0
+  frequency: 10
+  magnitude: 1.5
 --- !u!95 &2135973484005649670
 Animator:
   serializedVersion: 3

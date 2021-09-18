@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
 
     protected bool _canFireLasers = true;
     protected bool _canShootPowerup = true;
+    protected bool _canZigZag;
 
     protected BoxCollider2D _boxCollider2D;
 
@@ -38,6 +39,14 @@ public class Enemy : MonoBehaviour
     protected Player _player;
 
     protected RaycastHit2D _powerupInFrontOfShip;
+
+    [Header("Zig Zag Movement")]
+
+    [SerializeField] protected float frequency = 10.0f;
+    [SerializeField] protected float magnitude = 1.5f;
+
+    protected Vector3 pos;
+    protected Vector3 axis;
 
     protected virtual void OnEnable()
     {
@@ -61,6 +70,11 @@ public class Enemy : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
         _speed = _normalSpeed;
+        pos = transform.position;
+        axis = transform.right;
+        int movementOption = Random.Range(1, 3);
+        if (movementOption == 2)
+            _canZigZag = true;
     }
 
   protected virtual void Update()
@@ -74,11 +88,6 @@ public class Enemy : MonoBehaviour
     {
         if (Time.time > _canFire && _isBeingDestroyed == false && _canFireLasers == true)
         {
-            if(_powerupInFrontOfShip == true && _powerupInFrontOfShip.transform.position.y > 2)
-            {
-                return;
-            }
-
             GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, transform.rotation);
             Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
 
@@ -96,11 +105,21 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Movement()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        if(_canZigZag == true)
+        {
+            pos += Vector3.down * Time.deltaTime * _speed;
+            transform.position = pos + axis * Mathf.Sin(Time.time * frequency) * magnitude; 
+        }
+        else
+        {
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        }
+
         if (transform.position.y <= -5.4f)
         {
             transform.position = new Vector3(Random.Range(-8, 8), 8, transform.position.z);
             _canShootPowerup = true;
+            pos = transform.position;
         }
     }
 
@@ -109,8 +128,15 @@ public class Enemy : MonoBehaviour
         _powerupInFrontOfShip = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity, _powerupLayerMask);
         if(_powerupInFrontOfShip == true && _canShootPowerup == true)
         {
-            _canShootPowerup = false;
-            _canFire = -1;
+            Powerup powerup = _powerupInFrontOfShip.transform.GetComponent<Powerup>();
+            if(powerup != null)
+            {
+                if(powerup.invincible == false)
+                {
+                    _canShootPowerup = false;
+                    _canFire = -1;
+                }
+            }
         }
     }
 
@@ -127,6 +153,7 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(_addedScore);
             _anim.SetTrigger("OnEnemyDeath");
             _boxCollider2D.enabled = false;
+            _canZigZag = false;
             _speed = 0;
             _audioSource.Play();
             _isBeingDestroyed = true;
@@ -140,6 +167,7 @@ public class Enemy : MonoBehaviour
                 _player.Damage();
             _anim.SetTrigger("OnEnemyDeath");
             _boxCollider2D.enabled = false;
+            _canZigZag = false;
             _speed = 0;
             _audioSource.Play();
             _isBeingDestroyed = true;
@@ -153,6 +181,7 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(_addedScore);
             _anim.SetTrigger("OnEnemyDeath");
             _boxCollider2D.enabled = false;
+            _canZigZag = false;
             _speed = 0;
             _audioSource.Play();
             _isBeingDestroyed = true;

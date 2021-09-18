@@ -48,6 +48,7 @@ public class ShieldEnemy : Enemy
                     _player.AddScore(_addedScore);
                 _anim.SetTrigger("OnEnemyDeath");
                 _boxCollider2D.enabled = false;
+                _canZigZag = false;
                 _speed = 0;
                 _audioSource.Play();
                 _isBeingDestroyed = true;
@@ -63,6 +64,7 @@ public class ShieldEnemy : Enemy
             _shield.SetActive(false);
             _anim.SetTrigger("OnEnemyDeath");
             _boxCollider2D.enabled = false;
+            _canZigZag = false;
             _speed = 0;
             _audioSource.Play();
             _isBeingDestroyed = true;
@@ -77,6 +79,7 @@ public class ShieldEnemy : Enemy
                 _player.AddScore(_addedScore);
             _anim.SetTrigger("OnEnemyDeath");
             _boxCollider2D.enabled = false;
+            _canZigZag = false;
             _speed = 0;
             _audioSource.Play();
             _isBeingDestroyed = true;

@@ -10,6 +10,16 @@ public class DodgerEnemy : Enemy
     private bool _moveLeft;
     private float _newXPos;
 
+
+    protected override void Init()
+    {
+        _anim = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
+        _boxCollider2D = GetComponent<BoxCollider2D>();
+        _speed = _normalSpeed;
+        pos = transform.position;
+        axis = transform.right;
+    }
     protected override void Movement()
     {
         if(_dodgeTheLaser == true)

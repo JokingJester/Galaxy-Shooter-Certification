@@ -6,6 +6,7 @@ public class Powerup : MonoBehaviour
 {
 
     private bool _moveTowardPlayer;
+    public bool invincible = true;
     [SerializeField] private float _speed;
     [SerializeField] private float _speedTowardPlayer = 20;
     [SerializeField] private int _powerupID;
@@ -33,6 +34,9 @@ public class Powerup : MonoBehaviour
 
     void Update()
     {
+        if (transform.position.y < 0.8f && _moveTowardPlayer == false)
+            invincible = false;
+
         if (_moveTowardPlayer == false)
             transform.Translate(Vector3.down * _speed * Time.deltaTime);
         else
@@ -50,6 +54,7 @@ public class Powerup : MonoBehaviour
     public void MoveTowardPlayer()
     {
         _moveTowardPlayer = true;
+        invincible = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
