@@ -143,7 +143,14 @@ public class Player : MonoBehaviour
             if (rawInput.x == 0 && rawInput.y == 0)
                 isMoving = false;
             else
-                isMoving = true;
+            {
+                if (rawInput.y == -1 && transform.position.y == -3.8f && rawInput.x == 0)
+                    isMoving = false;
+                else if (rawInput.y == 1 && transform.position.y == 0 && rawInput.x == 0)
+                    isMoving = false;
+                else
+                    isMoving = true;
+            }
 
             if (Input.GetKey(KeyCode.LeftShift) && _fuelDepleted == false && isMoving == true)
             {
