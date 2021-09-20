@@ -129,7 +129,7 @@ public class Enemy : MonoBehaviour
             Powerup powerup = _powerupInFrontOfShip.transform.GetComponent<Powerup>();
             if(powerup != null)
             {
-                if(powerup.invincible == false)
+                if (powerup.invincible == false)
                 {
                     _canShootPowerup = false;
                     _canFire = -1;

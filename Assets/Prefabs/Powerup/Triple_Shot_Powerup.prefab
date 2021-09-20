@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce0173382535cf4439efe31827bf5759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invincible: 1
   _speed: 3
   _speedTowardPlayer: 20
   _powerupID: 0

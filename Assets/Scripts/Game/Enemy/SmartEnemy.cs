@@ -65,6 +65,10 @@ public class SmartEnemy : Enemy
     private IEnumerator FireLaserRoutine()
     {
         yield return new WaitForSeconds(1);
+
+        if (_isBeingDestroyed == true)
+            yield break;
+
         GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, transform.rotation);
         Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
 

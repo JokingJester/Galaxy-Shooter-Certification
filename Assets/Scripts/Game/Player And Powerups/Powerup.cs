@@ -34,7 +34,7 @@ public class Powerup : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.y < 0.8f && _moveTowardPlayer == false)
+        if (transform.position.y < 0.8f && _moveTowardPlayer == false && _renderer.enabled == true)
             invincible = false;
 
         if (_moveTowardPlayer == false)
@@ -94,6 +94,7 @@ public class Powerup : MonoBehaviour
                         break;
                 }
             }
+            invincible = true;
             _renderer.enabled = false;
             _audioSource.Play();
             Destroy(GetComponent<BoxCollider2D>());

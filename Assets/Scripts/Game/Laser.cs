@@ -31,9 +31,9 @@ public class Laser : MonoBehaviour
 
     private void MoveDown()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        transform.Translate(Vector2.down * _speed * Time.deltaTime);
 
-        if (transform.position.y <= -8)
+        if (transform.position.y <= -8 && _isEnemyLaser == true)
         {
             if (transform.parent != null)
             {
@@ -46,9 +46,9 @@ public class Laser : MonoBehaviour
 
     private void MoveUp()
     {
-        transform.Translate(Vector3.up * _speed * Time.deltaTime);
+        transform.Translate(Vector2.up * _speed * Time.deltaTime);
 
-        if (transform.position.y >= 8)
+        if (transform.position.y >= 8 && _isChainLaser == false)
         {
             if (transform.parent != null)
             {
@@ -111,7 +111,6 @@ public class Laser : MonoBehaviour
                 FindClosestEnemyTarget();
             }
         }
-
     }
 
     private void FindClosestEnemyTarget()
@@ -122,7 +121,7 @@ public class Laser : MonoBehaviour
         foreach (var enemy in allEnemies)
         {
             Enemy possibleEnemyTarget = enemy.GetComponent<Enemy>();
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            float distance = Vector2.Distance(transform.position, enemy.transform.position);
             if (distance < minDistance && possibleEnemyTarget.isTargeted == false)
             {
                 minDistance = distance;
@@ -134,6 +133,16 @@ public class Laser : MonoBehaviour
         {
             _enemyTarget = closestEnemy.transform;
             closestEnemy.GetComponent<Enemy>().isTargeted = true;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_enemyTarget != null)
+        {
+            Enemy targetEnemy = _enemyTarget.GetComponent<Enemy>();
+            if (targetEnemy.isTargeted == true && targetEnemy._isBeingDestroyed == false)
+                targetEnemy.isTargeted = false;
         }
     }
 }

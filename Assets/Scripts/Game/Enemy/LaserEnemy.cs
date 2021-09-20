@@ -39,7 +39,8 @@ public class LaserEnemy : Enemy
 
     public void StopFiringLaserBeam()
     {
-        Destroy(this.transform.GetChild(0).gameObject);
+        if(transform.childCount > 0)
+            Destroy(this.transform.GetChild(0).gameObject);
     }
     public void ChangeSpeed(bool damageOn)
     {
@@ -85,7 +86,7 @@ public class LaserEnemy : Enemy
     private IEnumerator TurnOnLaserRoutine()
     {
         yield return _laserInactiveSeconds;
-        if(_isBeingDestroyed == false)
+        if(_isBeingDestroyed == false && transform.childCount > 0)
         {
             this.transform.GetChild(0).gameObject.SetActive(true);
         }
@@ -96,7 +97,7 @@ public class LaserEnemy : Enemy
         if (other.tag == "Laser")
         {
             isTargeted = true;
-            Destroy(transform.GetChild(0).gameObject);
+            StopFiringLaserBeam();
             _audioSource.Stop();
             Laser laser = other.gameObject.GetComponent<Laser>();
             if (laser != null)
@@ -115,7 +116,7 @@ public class LaserEnemy : Enemy
         if (other.tag == "Player")
         {
             isTargeted = true;
-            Destroy(transform.GetChild(0).gameObject);
+            StopFiringLaserBeam();
             _audioSource.Stop();
             if (_player != null)
                 _player.Damage();
@@ -130,7 +131,7 @@ public class LaserEnemy : Enemy
         if (other.tag == "Missile")
         {
             isTargeted = true;
-            Destroy(transform.GetChild(0).gameObject);
+            StopFiringLaserBeam();
             _audioSource.Stop();
             if (_player != null)
                 _player.AddScore(_addedScore);
