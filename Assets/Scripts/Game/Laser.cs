@@ -10,6 +10,7 @@ public class Laser : MonoBehaviour
 
     private int _shipsDestroyed;
     private Transform _enemyTarget;
+    private Enemy _enemyScript;
 
     [HideInInspector] public bool _isEnemyLaser;
 
@@ -22,7 +23,7 @@ public class Laser : MonoBehaviour
 
         if(_shipsDestroyed == 1)
         {
-            if (_enemyTarget != null)
+            if (_enemyTarget != null && _enemyScript._isBeingDestroyed == false)
                 transform.position = Vector2.MoveTowards(transform.position, _enemyTarget.position, _speed * 2 * Time.deltaTime);
             else
                 MoveUp();
@@ -132,7 +133,8 @@ public class Laser : MonoBehaviour
         if (closestEnemy != null)
         {
             _enemyTarget = closestEnemy.transform;
-            closestEnemy.GetComponent<Enemy>().isTargeted = true;
+            _enemyScript = closestEnemy.GetComponent<Enemy>();
+            _enemyScript.isTargeted = true;
         }
     }
 
@@ -140,9 +142,9 @@ public class Laser : MonoBehaviour
     {
         if (_enemyTarget != null)
         {
-            Enemy targetEnemy = _enemyTarget.GetComponent<Enemy>();
-            if (targetEnemy.isTargeted == true && targetEnemy._isBeingDestroyed == false)
-                targetEnemy.isTargeted = false;
+            _enemyScript = _enemyTarget.GetComponent<Enemy>();
+            if (_enemyScript.isTargeted == true && _enemyScript._isBeingDestroyed == false)
+                _enemyScript.isTargeted = false;
         }
     }
 }
