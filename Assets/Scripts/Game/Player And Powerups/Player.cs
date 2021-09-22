@@ -85,6 +85,8 @@ public class Player : MonoBehaviour
     private WaitForSeconds _tripleShotCooldownTime;
     private WaitForSeconds _tripleShotPowerDownTime;
 
+    [HideInInspector] public bool _depleteAmmo;
+
     void Start()
     {
         transform.position = Vector3.zero;
@@ -196,9 +198,13 @@ public class Player : MonoBehaviour
 
     private void FireLaser()
     {
-        if (_tripleShotActive == false && _chainLaserActive == false && _missileAmmo == 0 && _currentAmmo >= 1)
+        if (_tripleShotActive == false && _chainLaserActive == false && _missileAmmo == 0)
         {
-            _currentAmmo--;
+            if (_currentAmmo >= 1 && _depleteAmmo == true)
+                _currentAmmo--;
+            else if (_currentAmmo == 0 && _depleteAmmo == true)
+                return;
+
             _uiManager.UpdatePlayerAmmo(_currentAmmo);
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
             _audioSource.PlayOneShot(_laserSound);

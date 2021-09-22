@@ -7,32 +7,40 @@ public class SpawnManager : MonoBehaviour
     [Header("Spawn Manager Settings")]
     [Tooltip("How Fast Enemies Spawn")]
     [SerializeField] private float _spawnRate;
-    [SerializeField] private GameObject[] _enemyPrefabs;
     [SerializeField] private Transform _enemyContainer;
+    [SerializeField] private UIManager _uiManager;
+    [SerializeField] private GameObject _asteroidPrefab;
+    [SerializeField] private WaveSettings[] _waveSettings;
     [SerializeField] private GameObject[] _powerups;
 
     private bool _stopSpawning;
+    private bool _spawnedNewEnemy;
+    private int _waveNumber;
+    private int _enemiesSpawned;
     private WaitForSeconds _spawnEnemyCooldown;
     private WaitForSeconds _startDelay;
 
 
     private void OnEnable()
     {
-        GameManager.onPlayerDeath += OnPlayerDeath;
+        GameManager.onPlayerDeath += StopSpawning;
     }
 
     private void OnDisable()
     {
-        GameManager.onPlayerDeath -= OnPlayerDeath;
+        GameManager.onPlayerDeath -= StopSpawning;
     }
     void Start()
     {
+        _spawnRate = _waveSettings[_waveNumber].spawnRate;
         _spawnEnemyCooldown = new WaitForSeconds(_spawnRate);
         _startDelay = new WaitForSeconds(3);
+        _uiManager.UpdateWaveText(_waveNumber + 1);
     }
 
     public void StartSpawning()
     {
+        _stopSpawning = false;
         StartCoroutine(SpawnPowerupRoutine());
         StartCoroutine(SpawnEnemyRoutine());
     }
@@ -42,10 +50,27 @@ public class SpawnManager : MonoBehaviour
         yield return _startDelay;
         while (_stopSpawning == false)
         {
-            Vector3 posToSpawn = new Vector3(Random.Range(-8, 8), 8, 0);
-            int randomEnemy = Random.Range(0, _enemyPrefabs.Length - 1);
-            GameObject spawnedEnemy = Instantiate(_enemyPrefabs[randomEnemy], posToSpawn, Quaternion.identity);
-            spawnedEnemy.transform.parent = _enemyContainer;
+            if(_spawnedNewEnemy == true)
+            {
+                Vector3 posToSpawn = new Vector3(Random.Range(-8, 8), 8, 0);
+                int randomEnemy = Random.Range(0, _waveSettings[_waveNumber].enemyPrefabs.Length - 1);
+                GameObject spawnedEnemy = Instantiate(_waveSettings[_waveNumber].enemyPrefabs[randomEnemy], posToSpawn, Quaternion.identity);
+                spawnedEnemy.transform.parent = _enemyContainer;
+                _enemiesSpawned++;
+                if (_enemiesSpawned == _waveSettings[_waveNumber].amountSpawnedInWave)
+                {
+                    InvokeRepeating("CheckForEnemies", 2, 2);
+                    yield break;
+                }
+            }
+            else
+            {
+                Vector3 posToSpawn = new Vector3(Random.Range(-8, 8), 8, 0);
+                GameObject spawnedEnemy = Instantiate(_waveSettings[_waveNumber].enemyPrefabs[_waveSettings[_waveNumber].newEnemyIndex], posToSpawn, Quaternion.identity);
+                spawnedEnemy.transform.parent = _enemyContainer;
+                _enemiesSpawned++;
+                _spawnedNewEnemy = true;
+            }
             yield return _spawnEnemyCooldown;
         }
     }
@@ -61,10 +86,34 @@ public class SpawnManager : MonoBehaviour
             float randomTime = Random.Range(3, 7);
             yield return new WaitForSeconds(randomTime);
         }
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if(player != null)
+        {
+            Vector3 ammoPosToSpawn = new Vector3(Random.Range(-8, 8), 8, 0);
+            Instantiate(_powerups[3], ammoPosToSpawn, Quaternion.identity);
+        }
     }
 
-    public void OnPlayerDeath()
+    public void StopSpawning()
     {
         _stopSpawning = true;
+    }
+
+    public void CheckForEnemies()
+    {
+        GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if(allEnemies.Length == 0)
+        {
+            CancelInvoke("CheckForEnemies");
+            StopSpawning();
+            _enemiesSpawned = 0;
+            _waveNumber++;
+            Instantiate(_asteroidPrefab);
+            _spawnedNewEnemy = false;
+            _spawnRate = _waveSettings[_waveNumber].spawnRate;
+            _spawnEnemyCooldown = new WaitForSeconds(_spawnRate);
+            _uiManager.UpdateWaveText(_waveNumber + 1);
+            //To Do: Spawn boss when all waves are completed
+        }
     }
 }

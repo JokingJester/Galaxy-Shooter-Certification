@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _scoreText;
     [SerializeField] private Text _gameOverText;
     [SerializeField] private Text _restartText;
+    [SerializeField] private TMP_Text _waveText;
 
     [Header("Thruster Slider Settings")]
     [SerializeField] private Slider _thrusterStamina;
@@ -42,7 +44,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateScoreText(int newScore)
     {
-        _scoreText.text = "Score " + newScore;
+        _scoreText.text = "Score: " + newScore;
     }
 
     public void UpdateLives(int currentLives)
@@ -53,6 +55,11 @@ public class UIManager : MonoBehaviour
             _livesImage.sprite = _liveSprites[currentLives];
     }
 
+    public void UpdateWaveText(int currentWave)
+    {
+        _waveText.text = "Wave " + currentWave;
+        //set the text to Wave + current wave
+    }
     public void UpdatePlayerAmmo(int ammo)
     {
         _ammoText.text = ammo.ToString() + "/15";
