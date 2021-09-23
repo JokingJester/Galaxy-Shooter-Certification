@@ -2765,10 +2765,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Asteroid
       objectReference: {fileID: 0}
-    - target: {fileID: 314158191436948940, guid: bac1a24020d57794d990607ca6afc6eb, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4394747270113087854, guid: bac1a24020d57794d990607ca6afc6eb, type: 3}
       propertyPath: m_RootOrder
       value: 6

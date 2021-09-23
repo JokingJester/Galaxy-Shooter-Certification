@@ -15,6 +15,7 @@ public class SpawnManager : MonoBehaviour
 
     private bool _stopSpawning;
     private bool _spawnedNewEnemy;
+    private bool _enemiesDestroyed;
     private int _waveNumber;
     private int _enemiesSpawned;
     private WaitForSeconds _spawnEnemyCooldown;
@@ -85,12 +86,11 @@ public class SpawnManager : MonoBehaviour
             Instantiate(_powerups[randomPowerup], posToSpawn, Quaternion.identity);
             float randomTime = Random.Range(3, 7);
             yield return new WaitForSeconds(randomTime);
-        }
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if(player != null)
-        {
-            Vector3 ammoPosToSpawn = new Vector3(Random.Range(-8, 8), 8, 0);
-            Instantiate(_powerups[3], ammoPosToSpawn, Quaternion.identity);
+            if (_enemiesDestroyed == true)
+            {
+                _enemiesDestroyed = false;
+                yield break;
+            }
         }
     }
 
@@ -105,6 +105,7 @@ public class SpawnManager : MonoBehaviour
         if(allEnemies.Length == 0)
         {
             CancelInvoke("CheckForEnemies");
+            _enemiesDestroyed = true;
             StopSpawning();
             _enemiesSpawned = 0;
             _waveNumber++;

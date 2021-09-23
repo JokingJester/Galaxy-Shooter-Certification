@@ -87,17 +87,20 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public bool _depleteAmmo;
 
-    void Start()
+    private void Awake()
     {
+        _currentAmmo = _maxAmmo;
         transform.position = Vector3.zero;
         _laserCooldownTime = new WaitForSeconds(_fireRate);
         _tripleShotCooldownTime = new WaitForSeconds(_tripleShotFireRate);
         _tripleShotPowerDownTime = new WaitForSeconds(5);
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
-        _currentAmmo = _maxAmmo;
         _speed = _regularSpeed;
         _maxFuelAmount = _totalFuel;
+    }
+    void Start()
+    {
     }
 
 
@@ -198,6 +201,7 @@ public class Player : MonoBehaviour
 
     private void FireLaser()
     {
+        //tO do: Can't get triple shot or chain laser when the astroid spawns
         if (_tripleShotActive == false && _chainLaserActive == false && _missileAmmo == 0)
         {
             if (_currentAmmo >= 1 && _depleteAmmo == true)
@@ -283,6 +287,8 @@ public class Player : MonoBehaviour
 
     public void TripleShotActive()
     {
+        if (_depleteAmmo == false)
+            return;
         _chainLaserActive = false;
         _tripleShotActive = true;
         StartCoroutine(TripleShotPowerDownRoutine());
@@ -331,11 +337,15 @@ public class Player : MonoBehaviour
 
     public void AddMissileAmmo()
     {
+        if (_depleteAmmo == false)
+            return;
         _missileAmmo += 4;
     }
 
     public void ChainLaserActive()
     {
+        if (_depleteAmmo == false)
+            return;
         _tripleShotActive = false;
         _chainLaserActive = true;
         StartCoroutine(ChainLaserPowerDownRoutine());
@@ -344,6 +354,15 @@ public class Player : MonoBehaviour
     {
         _score += addedScore;
         _uiManager.UpdateScoreText(_score);
+    }
+
+    public void StopDepletingAmmo()
+    {
+        _depleteAmmo = false;
+        _missileAmmo = 0;
+        _tripleShotActive = false;
+        _chainLaserActive = false;
+        RefillAmmo();
     }
 
     private IEnumerator LaserCooldownRoutine()
