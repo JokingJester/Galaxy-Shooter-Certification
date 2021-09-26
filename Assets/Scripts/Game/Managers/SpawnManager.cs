@@ -18,6 +18,7 @@ public class SpawnManager : MonoBehaviour
     private bool _enemiesDestroyed;
     private int _waveNumber;
     private int _enemiesSpawned;
+    private Transform _player;
     private WaitForSeconds _spawnEnemyCooldown;
     private WaitForSeconds _startDelay;
 
@@ -33,6 +34,7 @@ public class SpawnManager : MonoBehaviour
     }
     void Start()
     {
+        _player = GameObject.FindGameObjectWithTag("Player").transform;
         _spawnRate = _waveSettings[_waveNumber].spawnRate;
         _spawnEnemyCooldown = new WaitForSeconds(_spawnRate);
         _startDelay = new WaitForSeconds(3);
@@ -102,19 +104,27 @@ public class SpawnManager : MonoBehaviour
     public void CheckForEnemies()
     {
         GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if(allEnemies.Length == 0)
+        if (allEnemies.Length == 0)
         {
-            CancelInvoke("CheckForEnemies");
-            _enemiesDestroyed = true;
-            StopSpawning();
-            _enemiesSpawned = 0;
-            _waveNumber++;
-            Instantiate(_asteroidPrefab);
-            _spawnedNewEnemy = false;
-            _spawnRate = _waveSettings[_waveNumber].spawnRate;
-            _spawnEnemyCooldown = new WaitForSeconds(_spawnRate);
-            _uiManager.UpdateWaveText(_waveNumber + 1);
-            //To Do: Spawn boss when all waves are completed
+            if (_waveNumber != _waveSettings.Length - 1)
+            {
+                CancelInvoke("CheckForEnemies");
+                _enemiesDestroyed = true;
+                StopSpawning();
+                _enemiesSpawned = 0;
+                _waveNumber++;
+                Instantiate(_asteroidPrefab);
+                _spawnedNewEnemy = false;
+                _spawnRate = _waveSettings[_waveNumber].spawnRate;
+                _spawnEnemyCooldown = new WaitForSeconds(_spawnRate);
+                _uiManager.UpdateWaveText(_waveNumber + 1);
+            }
+            else
+            {
+                _uiManager.playerHasWon = true;
+                if(_player != null)
+                    Destroy(_player.gameObject);
+            }
         }
     }
 }

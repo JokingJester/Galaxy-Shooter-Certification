@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _ammoText;
     [SerializeField] private Text _scoreText;
     [SerializeField] private Text _gameOverText;
+    [SerializeField] private Text _gameOverWinText;
     [SerializeField] private Text _restartText;
     [SerializeField] private TMP_Text _waveText;
 
@@ -24,6 +25,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite[] _liveSprites;
 
     private WaitForSeconds _flickerCooldown;
+
+    [HideInInspector] public bool playerHasWon;
 
     private void OnEnable()
     {
@@ -82,10 +85,20 @@ public class UIManager : MonoBehaviour
     {
         while (true)
         {
-            _gameOverText.gameObject.SetActive(true);
-            yield return _flickerCooldown;
-            _gameOverText.gameObject.SetActive(false);
-            yield return _flickerCooldown;
+            if(playerHasWon == false)
+            {
+                _gameOverText.gameObject.SetActive(true);
+                yield return _flickerCooldown;
+                _gameOverText.gameObject.SetActive(false);
+                yield return _flickerCooldown;
+            }
+            else
+            {
+                _gameOverWinText.gameObject.SetActive(true);
+                yield return _flickerCooldown;
+                _gameOverWinText.gameObject.SetActive(false);
+                yield return _flickerCooldown;
+            }
         }
     }
 }
