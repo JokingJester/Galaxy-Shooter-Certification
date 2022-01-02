@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
     private AudioSource _audioSource;
 
     private bool _canAttractPowerups = true;
-    private bool _canFireLaser = true;
+    [HideInInspector] public bool _canFireLaser = true;
     private bool _enableSpeedBoost;
     private bool _tripleShotActive;
     private bool _chainLaserActive;
@@ -108,10 +108,6 @@ public class Player : MonoBehaviour
     {
         Movement();
         PlayerBounds();
-        if (Input.GetKey(KeyCode.Space) && _canFireLaser == true)
-        {
-            FireLaser();
-        }
 
         if (Input.GetKeyDown(KeyCode.C) && _canAttractPowerups == true)
         {
@@ -199,7 +195,7 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(-11.2f, transform.position.y, transform.position.z);
     }
 
-    private void FireLaser()
+    public void FireLaser()
     {
         //tO do: Can't get triple shot or chain laser when the astroid spawns
         if (_tripleShotActive == false && _chainLaserActive == false && _missileAmmo == 0)
