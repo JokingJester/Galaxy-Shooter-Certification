@@ -17,11 +17,18 @@ public class PlayerInputReader : MonoBehaviour
     {
         _input = new GameInputs();
         _input.Player.Enable();
+        _input.Player.Magnet.performed += Magnet_performed;
+    }
+
+    private void Magnet_performed(InputAction.CallbackContext obj)
+    {
+        _player.UsePowerupMagnet();
     }
 
     private void Update()
     {
         SpacebarInput();
+
     }
 
     private void SpacebarInput()

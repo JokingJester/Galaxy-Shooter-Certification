@@ -25,6 +25,14 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Magnet"",
+                    ""type"": ""Button"",
+                    ""id"": ""a0d61f42-875b-4c45-9f79-285655cafe40"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -38,6 +46,17 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81cc2be3-1219-4854-8c61-f86146264c9a"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Magnet"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -47,6 +66,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
+        m_Player_Magnet = m_Player.FindAction("Magnet", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -97,11 +117,13 @@ public class @GameInputs : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Shoot;
+    private readonly InputAction m_Player_Magnet;
     public struct PlayerActions
     {
         private @GameInputs m_Wrapper;
         public PlayerActions(@GameInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
+        public InputAction @Magnet => m_Wrapper.m_Player_Magnet;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -114,6 +136,9 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 @Shoot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
                 @Shoot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
                 @Shoot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
+                @Magnet.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMagnet;
+                @Magnet.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMagnet;
+                @Magnet.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMagnet;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -121,6 +146,9 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
+                @Magnet.started += instance.OnMagnet;
+                @Magnet.performed += instance.OnMagnet;
+                @Magnet.canceled += instance.OnMagnet;
             }
         }
     }
@@ -128,5 +156,6 @@ public class @GameInputs : IInputActionCollection, IDisposable
     public interface IPlayerActions
     {
         void OnShoot(InputAction.CallbackContext context);
+        void OnMagnet(InputAction.CallbackContext context);
     }
 }

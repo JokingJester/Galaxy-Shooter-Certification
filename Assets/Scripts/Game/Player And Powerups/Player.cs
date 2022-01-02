@@ -108,15 +108,6 @@ public class Player : MonoBehaviour
     {
         Movement();
         PlayerBounds();
-
-        if (Input.GetKeyDown(KeyCode.C) && _canAttractPowerups == true)
-        {
-            if (callPowerups != null)
-            {
-                callPowerups();
-                StartCoroutine(AttractPowerupsRoutine());
-            }
-        }
     }
 
     private void Movement()
@@ -232,6 +223,17 @@ public class Player : MonoBehaviour
         StartCoroutine(LaserCooldownRoutine());
     }
 
+    public void UsePowerupMagnet()
+    {
+        if (_canAttractPowerups == true)
+        {
+            if (callPowerups != null)
+            {
+                callPowerups();
+                StartCoroutine(AttractPowerupsRoutine());
+            }
+        }
+    }
     public void Damage()
     {
         if (_shieldIsActive == true)
