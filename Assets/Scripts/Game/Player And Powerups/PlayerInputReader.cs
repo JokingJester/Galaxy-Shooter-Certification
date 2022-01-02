@@ -28,6 +28,7 @@ public class PlayerInputReader : MonoBehaviour
     private void Update()
     {
         SpacebarInput();
+        LeftShiftInput();
 
     }
 
@@ -36,5 +37,11 @@ public class PlayerInputReader : MonoBehaviour
         var spacebar = _input.Player.Shoot.ReadValue<float>();
         if (spacebar == 1 && _player._canFireLaser == true)
             _player.FireLaser();
+    }
+
+    private void LeftShiftInput()
+    {
+        _player._canUseThruster = _input.Player.Thruster.ReadValue<float>() == 1;
+        _player.Movement(_input.Player.PreciseInput.ReadValue<Vector2>());
     }
 }

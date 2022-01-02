@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
 
     private bool _canAttractPowerups = true;
     [HideInInspector] public bool _canFireLaser = true;
+    [HideInInspector] public bool _canUseThruster;
     private bool _enableSpeedBoost;
     private bool _tripleShotActive;
     private bool _chainLaserActive;
@@ -106,11 +107,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Movement();
         PlayerBounds();
     }
 
-    private void Movement()
+    public void Movement(Vector2 rawInput)
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -127,10 +127,11 @@ public class Player : MonoBehaviour
         else
         {
             bool isMoving;
+            #region Explanation for Raw Input Variable
 
-            //I created another input variable to get the precise input of when the player presses the keys.
-            //This is so I can stop the stamina from decreasing as fast as possible when the player stops moving and the key is held down
-            Vector3 rawInput = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            //I created the raw input variable to get the precise input of when the player presses the keys.
+            //This is so I can stop the stamina from decreasing as fast as possible when the player reaches the max or minimum height and presses the key in that direction
+            #endregion
 
             if (rawInput.x == 0 && rawInput.y == 0)
                 isMoving = false;
@@ -144,7 +145,7 @@ public class Player : MonoBehaviour
                     isMoving = true;
             }
 
-            if (Input.GetKey(KeyCode.LeftShift) && _fuelDepleted == false && isMoving == true)
+            if (_canUseThruster == true && _fuelDepleted == false && isMoving == true)
             {
                 if (_totalFuel > 0f)
                 {
