@@ -198,7 +198,7 @@ public class Player : MonoBehaviour
                 return;
 
             _uiManager.UpdatePlayerAmmo(_currentAmmo);
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+            PoolManager.Instance.RequestLaser(transform.position + new Vector3(0, 1.05f, 0));
             _audioSource.PlayOneShot(_laserSound);
         }
         else if (_tripleShotActive == true)

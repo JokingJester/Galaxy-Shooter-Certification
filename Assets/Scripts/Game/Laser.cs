@@ -38,10 +38,10 @@ public class Laser : MonoBehaviour
         {
             if (transform.parent != null)
             {
-                Destroy(transform.parent.gameObject);
+                this.gameObject.SetActive(false);
             }
             else
-                Destroy(this.gameObject);
+                this.gameObject.SetActive(false);
         }
     }
 
@@ -53,10 +53,10 @@ public class Laser : MonoBehaviour
         {
             if (transform.parent != null)
             {
-                Destroy(transform.parent.gameObject);
+                this.gameObject.SetActive(false);
             }
             else
-                Destroy(this.gameObject);
+                this.gameObject.SetActive(false);
         }
     }
 
@@ -77,7 +77,7 @@ public class Laser : MonoBehaviour
                 //I made the left laser collider big enough to cover both lasers
                 //So now it damages only once
                 player.Damage();
-                Destroy(this.gameObject);
+                this.gameObject.SetActive(false);
             }
         }
 
@@ -90,7 +90,7 @@ public class Laser : MonoBehaviour
                     return;
             }
             Destroy(collision.gameObject);
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 
@@ -98,14 +98,14 @@ public class Laser : MonoBehaviour
     {
         if (_isChainLaser == false)
         {
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
         else
         {
             _shipsDestroyed++;
             if (_shipsDestroyed == 2)
             {
-                Destroy(this.gameObject);
+                this.gameObject.SetActive(false);
             }
             else
             {
